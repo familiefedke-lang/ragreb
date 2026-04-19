@@ -154,20 +154,33 @@ Technisch greift RAG auf Embedding-Modelle und Vektordatenbanken zurück, um ein
 | Fehlende Nachvollziehbarkeit      | Black-Box-Ausgabe ohne Herkunftsnachweis              | Jede Antwort enthält Quellenverweise auf die Ursprungsdokumente  |
 
 # **2 | Wie funktioniert RAG technisch?**
-
+        ![Alt text](images/my-image.jpg)
 RAG funktioniert in zwei Phasen: Eine Offline-Phase bereitet Dokumente auf und indexiert sie als Vektoren. Eine Online-Phase empfängt eine Nutzeranfrage, sucht semantisch passende Textabschnitte, fügt diese als Kontext in einen Prompt ein und lässt ein LLM die finale Antwort generieren. Die gesamte Pipeline ist modular aufgebaut - jeder Baustein lässt sich unabhängig austauschen und optimieren.
-
-## **2.1 Datenquellen und Dokumentvorbereitung**
+  <figure class="img">
+          <img src="rag_technik.png"  style="width:100%" alt="Description">
+          <figcaption>Caption text</figcaption>
+        </figure>
+		## **2.1 Datenquellen und Dokumentvorbereitung**
 
 Bevor RAG suchen kann, muss es etwas geben, durch das gesucht wird. Typische Unternehmensquellen: Intranet, SharePoint, Confluence, CRM- und ERP-Systeme, Ticketsysteme, PDF-Archive, SQL-Datenbanken. Frameworks wie LangChain und LlamaIndex stellen vorgefertigte Connectors für diese Quellen bereit - das manuelle Parsen einzelner Formate entfällt weitgehend.
 
 Die Vorbereitung folgt einem dreistufigen Prozess: Erst die Extraktion (Dokumente werden aus Quellsystemen geladen und Metadaten wie Autor, Datum, Abteilung erfasst), dann die Bereinigung (Kopf- und Fußzeilen, Navigationselemente, Formatierungsartefakte werden entfernt) und schließlich die Normalisierung (einheitliche Zeichenkodierung, Sprache, Bereinigung von Rauschen wie Tabellen-Trennzeichen oder redundanter Whitespaces). Die Qualität dieser Vorverarbeitung entscheidet direkt über die Retrieval-Qualität. Ein schlecht bereinigtes Dokument liefert schlechte Chunks - und damit schlechte Antworten.
 
 ## **2.2 Chunking und Embeddings**
+<div class="art-body two-cols-grid">
+  <blockquote>
+    <p>**Chunking** zerlegt bereinigte Dokumente in handhabbare Abschnitte, sogenannte Chunks - typischerweise 200 bis 1.000 Tokens pro Stück. Die Granularität ist strategisch: Ganze Kapitel sind zu grob für präzise Antworten, einzelne Sätze zu kontextarm. Praxistaugliche Einheiten sind Absätze, FAQ-Einträge, Methodenbeschreibungen oder Tabellenzeilen. Wichtig: Eine Überlappung von 10 bis 20 Prozent zwischen benachbarten Chunks verhindert, dass Informationen an Schnittstellen verloren gehen.
+</p>
+  </blockquote>
 
-**Chunking** zerlegt bereinigte Dokumente in handhabbare Abschnitte, sogenannte Chunks - typischerweise 200 bis 1.000 Tokens pro Stück. Die Granularität ist strategisch: Ganze Kapitel sind zu grob für präzise Antworten, einzelne Sätze zu kontextarm. Praxistaugliche Einheiten sind Absätze, FAQ-Einträge, Methodenbeschreibungen oder Tabellenzeilen. Wichtig: Eine Überlappung von 10 bis 20 Prozent zwischen benachbarten Chunks verhindert, dass Informationen an Schnittstellen verloren gehen.
+  <blockquote>
+    <p>**Embeddings** wandeln jeden Chunk in einen hochdimensionalen Vektor um - eine Zahlenreihe, die die semantische Bedeutung des Textes kodiert. Beliebte Embedding-Modelle: OpenAI text-embedding-3-small/large, Cohere, oder die von Azure OpenAI bereitgestellten Modelle. Zwei Chunks mit ähnlicher Bedeutung liegen im Vektorraum nahe beieinander - das ist die Grundlage für die nachfolgende Ähnlichkeitssuche. Die Wahl des Embedding-Modells beeinflusst die Retrieval-Qualität erheblich; Sprach- und Domänenadäquanz sind entscheidend.
+</p>
+  </blockquote>
+</div>
 
-**Embeddings** wandeln jeden Chunk in einen hochdimensionalen Vektor um - eine Zahlenreihe, die die semantische Bedeutung des Textes kodiert. Beliebte Embedding-Modelle: OpenAI text-embedding-3-small/large, Cohere, oder die von Azure OpenAI bereitgestellten Modelle. Zwei Chunks mit ähnlicher Bedeutung liegen im Vektorraum nahe beieinander - das ist die Grundlage für die nachfolgende Ähnlichkeitssuche. Die Wahl des Embedding-Modells beeinflusst die Retrieval-Qualität erheblich; Sprach- und Domänenadäquanz sind entscheidend.
+
+
 
 ## **2.3 Vektordatenbanken und Retrieval**
 
@@ -298,7 +311,75 @@ OpenAIs verwaltetes Retrieval für Assistants: Dateien hochladen, Vektorisierung
 **Databricks (MosaicAI):** RAG auf Basis von Unity Catalog, Delta Lake und Vektorsuche. Nahtlose Verbindung von strukturierten BI-Daten und unstrukturierten Dokumenten. Governance über den gesamten Daten- und Modell-Lifecycle.
 
 **Snowflake (Cortex Search):** Voll verwalteter RAG-Service auf Snowflake-Daten. Daten verlassen Snowflake nie - attraktiv für Unternehmen mit strikten Data-Governance-Richtlinien. Integration mit Streamlit für UIs.
-
+<table border="1" style="width:100%; border-collapse: collapse; font-family: Arial, sans-serif;">
+  <thead>
+    <tr style="background-color: #f2f2f2; text-align: left;">
+      <th style="padding: 10px;">Lösung</th>
+      <th style="padding: 10px;">Typ</th>
+      <th style="padding: 10px;">Stärken</th>
+      <th style="padding: 10px;">Deployment</th>
+      <th style="padding: 10px;">Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 10px;"><b>LangChain / LangGraph</b></td>
+      <td style="padding: 10px;">Orchestrierung</td>
+      <td style="padding: 10px;">Maximale Flexibilität, riesiges Ökosystem, Agentic RAG.</td>
+      <td style="padding: 10px;">Open Source / Cloud</td>
+      <td style="padding: 10px;"><a href="https://www.langchain.com/" target="_blank">Link</a></td>
+    </tr>
+    <tr>
+      <td style="padding: 10px;"><b>LlamaIndex</b></td>
+      <td style="padding: 10px;">Daten-Framework</td>
+      <td style="padding: 10px;">Hervorragende Daten-Konnektoren, Fokus auf Retrieval-Qualität.</td>
+      <td style="padding: 10px;">Open Source / Cloud</td>
+      <td style="padding: 10px;"><a href="https://www.llamaindex.ai/" target="_blank">Link</a></td>
+    </tr>
+    <tr>
+      <td style="padding: 10px;"><b>Azure AI Search</b></td>
+      <td style="padding: 10px;">Managed Platform</td>
+      <td style="padding: 10px;">Enterprise-Compliance, native Azure-Integration, Hybrid Search.</td>
+      <td style="padding: 10px;">Cloud (Azure)</td>
+      <td style="padding: 10px;"><a href="https://azure.microsoft.com/en-us/products/ai-search/" target="_blank">Link</a></td>
+    </tr>
+    <tr>
+      <td style="padding: 10px;"><b>Elasticsearch</b></td>
+      <td style="padding: 10px;">Search Engine</td>
+      <td style="padding: 10px;">ELSER-Modell, bewährte Skalierbarkeit, Hybrid Search.</td>
+      <td style="padding: 10px;">Hybrid / Cloud</td>
+      <td style="padding: 10px;"><a href="https://www.elastic.co/rag" target="_blank">Link</a></td>
+    </tr>
+    <tr>
+      <td style="padding: 10px;"><b>Qdrant</b></td>
+      <td style="padding: 10px;">Vektordatenbank</td>
+      <td style="padding: 10px;">High-Performance (Rust), effiziente Latenz, Open Source Kern.</td>
+      <td style="padding: 10px;">On-Prem / Cloud</td>
+      <td style="padding: 10px;"><a href="https://qdrant.tech/" target="_blank">Link</a></td>
+    </tr>
+    <tr>
+      <td style="padding: 10px;"><b>Pinecone</b></td>
+      <td style="padding: 10px;">Vektordatenbank</td>
+      <td style="padding: 10px;">Serverless, kein Ops-Aufwand, extrem einfach zu skalieren.</td>
+      <td style="padding: 10px;">Cloud-only</td>
+      <td style="padding: 10px;"><a href="https://www.pinecone.io/" target="_blank">Link</a></td>
+    </tr>
+    <tr>
+      <td style="padding: 10px;"><b>OpenAI Assistants</b></td>
+      <td style="padding: 10px;">All-in-One API</td>
+      <td style="padding: 10px;">Schnellster Start (No-Code Retrieval), einfache Handhabung.</td>
+      <td style="padding: 10px;">Cloud (OpenAI)</td>
+      <td style="padding: 10px;"><a href="https://platform.openai.com/docs/assistants/overview" target="_blank">Link</a></td>
+    </tr>
+    <tr>
+      <td style="padding: 10px;"><b>Databricks MosaicAI</b></td>
+      <td style="padding: 10px;">Data Intelligence</td>
+      <td style="padding: 10px;">End-to-End Governance, RAG direkt auf dem Data Lake.</td>
+      <td style="padding: 10px;">Cloud (Multi-Cloud)</td>
+      <td style="padding: 10px;"><a href="https://www.databricks.com/product/machine-learning/mosaic-ai" target="_blank">Link</a></td>
+    </tr>
+  </tbody>
+</table>
 # **6 | Die 4 wichtigsten Use Cases für RAG in der Business Intelligence**
 
 RAGs größter Business-Wert entfaltet sich nicht im Labor, sondern in konkreten Anwendungsfällen: Wissenssuche, Dokumentanalyse, Support-Automatisierung und Entscheidungsunterstützung. Diese vier Use Cases decken den überwiegenden Teil der Enterprise-Nachfrage ab und repräsentieren die Szenarien mit dem höchsten ROI-Potenzial.
