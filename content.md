@@ -167,18 +167,9 @@ Bevor RAG suchen kann, muss es etwas geben, durch das gesucht wird. Typische Unt
 Die Vorbereitung folgt einem dreistufigen Prozess: Erst die Extraktion (Dokumente werden aus Quellsystemen geladen und Metadaten wie Autor, Datum, Abteilung erfasst), dann die Bereinigung (Kopf- und Fußzeilen, Navigationselemente, Formatierungsartefakte werden entfernt) und schließlich die Normalisierung (einheitliche Zeichenkodierung, Sprache, Bereinigung von Rauschen wie Tabellen-Trennzeichen oder redundanter Whitespaces). Die Qualität dieser Vorverarbeitung entscheidet direkt über die Retrieval-Qualität. Ein schlecht bereinigtes Dokument liefert schlechte Chunks - und damit schlechte Antworten.
 
 ## **2.2 Chunking und Embeddings**
-<div class="art-body two-cols-grid">
-  <blockquote>
-    <p>**Chunking** zerlegt bereinigte Dokumente in handhabbare Abschnitte, sogenannte Chunks - typischerweise 200 bis 1.000 Tokens pro Stück. Die Granularität ist strategisch: Ganze Kapitel sind zu grob für präzise Antworten, einzelne Sätze zu kontextarm. Praxistaugliche Einheiten sind Absätze, FAQ-Einträge, Methodenbeschreibungen oder Tabellenzeilen. Wichtig: Eine Überlappung von 10 bis 20 Prozent zwischen benachbarten Chunks verhindert, dass Informationen an Schnittstellen verloren gehen.
-</p>
-  </blockquote>
+**Chunking** zerlegt bereinigte Dokumente in handhabbare Abschnitte, sogenannte Chunks - typischerweise 200 bis 1.000 Tokens pro Stück. Die Granularität ist strategisch: Ganze Kapitel sind zu grob für präzise Antworten, einzelne Sätze zu kontextarm. Praxistaugliche Einheiten sind Absätze, FAQ-Einträge, Methodenbeschreibungen oder Tabellenzeilen. Wichtig: Eine Überlappung von 10 bis 20 Prozent zwischen benachbarten Chunks verhindert, dass Informationen an Schnittstellen verloren gehen.
 
-  <blockquote>
-    <p>**Embeddings** wandeln jeden Chunk in einen hochdimensionalen Vektor um - eine Zahlenreihe, die die semantische Bedeutung des Textes kodiert. Beliebte Embedding-Modelle: OpenAI text-embedding-3-small/large, Cohere, oder die von Azure OpenAI bereitgestellten Modelle. Zwei Chunks mit ähnlicher Bedeutung liegen im Vektorraum nahe beieinander - das ist die Grundlage für die nachfolgende Ähnlichkeitssuche. Die Wahl des Embedding-Modells beeinflusst die Retrieval-Qualität erheblich; Sprach- und Domänenadäquanz sind entscheidend.
-</p>
-  </blockquote>
-</div>
-
+**Embeddings** wandeln jeden Chunk in einen hochdimensionalen Vektor um - eine Zahlenreihe, die die semantische Bedeutung des Textes kodiert. Beliebte Embedding-Modelle: OpenAI text-embedding-3-small/large, Cohere, oder die von Azure OpenAI bereitgestellten Modelle. Zwei Chunks mit ähnlicher Bedeutung liegen im Vektorraum nahe beieinander - das ist die Grundlage für die nachfolgende Ähnlichkeitssuche. Die Wahl des Embedding-Modells beeinflusst die Retrieval-Qualität erheblich; Sprach- und Domänenadäquanz sind entscheidend.
 
 
 
