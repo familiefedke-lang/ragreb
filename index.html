@@ -3,567 +3,242 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Retrieval-Augmented Generation (RAG) – Architektur, Use Cases &amp; Implementierung</title>
-  <meta name="description" content="Der holistische Fachartikel zu Retrieval-Augmented Generation (RAG): Architektur, Use Cases und Implementierung im Unternehmen. Business Intelligence, April 2026.">
-  <meta name="keywords" content="RAG, Retrieval-Augmented Generation, LLM, Vektordatenbank, KI, Künstliche Intelligenz, Business Intelligence, LangChain, LlamaIndex, Azure AI Search, Fine-Tuning">
+  <title>Karl Krat – B2B Content &amp; KI-Strategie</title>
+  <meta name="description" content="B2B-Content und KI-Strategie für Entscheider: Fachartikel, Whitepapers und Conversion Copy, die Komplexes verständlich und wirkungsvoll machen.">
   <meta name="author" content="Karl Krat">
   <meta name="robots" content="index, follow">
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="article">
-  <meta property="og:title" content="Retrieval-Augmented Generation (RAG) – Fachartikel">
-  <meta property="og:description" content="Der holistische Fachartikel: Architektur, Use Cases und Implementierung im Unternehmen. Business Intelligence, April 2026.">
-  <meta property="og:locale" content="de_DE">
-  <meta property="article:published_time" content="2026-04-01">
-  <meta property="article:author" content="Karl Krat">
-  <meta property="article:tag" content="RAG">
-  <meta property="article:tag" content="Business Intelligence">
-
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Retrieval-Augmented Generation (RAG): Architektur, Use Cases und Implementierung im Unternehmen",
-    "description": "Der holistische Fachartikel zu RAG – Definition, Architektur, Use Cases, Tool-Landschaft und Implementierungsleitfaden für Unternehmen.",
-    "author": { "@type": "Person", "name": "Karl Krat" },
-    "datePublished": "2026-04-01",
-    "inLanguage": "de-DE",
-    "about": { "@type": "Thing", "name": "Retrieval-Augmented Generation" }
-  }
-  </script>
-
-  <style>
-    /* ── Reset ───────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    /* ── Tokens ──────────────────────────────────────────── */
-    :root {
-      --bg:          #f7f5f0;
-      --surface:     #ffffff;
-      --text:        #2d2b28;
-      --muted:       #72706c;
-      --heading:     #1a1917;
-      --border:      #dbd8d2;
-      --border-lt:   #eae7e1;
-      --toc-bg:      #efede7;
-      --table-head:  #e8e5de;
-      --code-bg:     #edebe5;
-      --link:        #1a4a7a;
-      --accent:      #3d3b38;
-      --max:         740px;
-      --font:        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-      --r:           4px;
-    }
-
-    /* ── Base ────────────────────────────────────────────── */
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font);
-      font-size: 17px;
-      line-height: 1.8;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a { color: var(--link); }
-    a:hover { text-decoration: underline; }
-
-    /* ── Layout ──────────────────────────────────────────── */
-    main {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 3.5rem 1.5rem 5rem;
-    }
-
-    /* ── Loading ─────────────────────────────────────────── */
-    #loading {
-      padding: 2rem 0;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    /* ── Article Header ──────────────────────────────────── */
-    .art-header {
-      padding-bottom: 2.25rem;
-      margin-bottom: 2.5rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .art-tag {
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.09em;
-      color: var(--muted);
-      margin-bottom: 1.1rem;
-    }
-
-    h1 {
-      font-size: clamp(1.8rem, 4.5vw, 2.6rem);
-      font-weight: 800;
-      line-height: 1.15;
-      color: var(--heading);
-      margin-bottom: 0.75rem;
-      letter-spacing: -0.02em;
-    }
-
-    .art-subtitle {
-      font-size: 1.05rem;
-      color: var(--muted);
-      font-weight: 400;
-      line-height: 1.5;
-    }
-
-    /* ── TOC box ─────────────────────────────────────────── */
-    .toc-box {
-      background: var(--toc-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 1.25rem 1.5rem;
-      margin-bottom: 3rem;
-    }
-
-    .toc-box summary {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.09em;
-      color: var(--muted);
-      cursor: pointer;
-      user-select: none;
-      list-style: none;
-    }
-    .toc-box summary::-webkit-details-marker { display: none; }
-    .toc-box summary::after { content: "  ▾"; font-size: 0.85em; }
-    .toc-box[open] summary::after { content: "  ▴"; }
-
-    .toc-list {
-      list-style: none;
-      margin-top: 1rem;
-      columns: 2;
-      column-gap: 2rem;
-    }
-    @media (max-width: 560px) { .toc-list { columns: 1; } }
-
-    .toc-list li {
-      font-size: 0.84rem;
-      line-height: 1.4;
-      padding: 0.22rem 0;
-      break-inside: avoid;
-    }
-    .toc-list li.toc-l3 {
-      padding-left: 1rem;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-    .toc-list a {
-      color: inherit;
-      text-decoration: none;
-    }
-    .toc-list a:hover { color: var(--link); text-decoration: underline; }
-
-    /* ── Article body ────────────────────────────────────── */
-    .art-body h2 {
-      font-size: 1.45rem;
-      font-weight: 700;
-      color: var(--heading);
-      line-height: 1.25;
-      margin: 3rem 0 0.9rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border-lt);
-    }
-    .art-body h2:first-child {
-      border-top: none;
-      padding-top: 0;
-      margin-top: 0;
-    }
-
-    .art-body h3 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--heading);
-      margin: 2rem 0 0.6rem;
-      line-height: 1.35;
-    }
-
-    .art-body h4 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--muted);
-      margin: 1.5rem 0 0.4rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    /* ── Text ────────────────────────────────────────────── */
-    .art-body p {
-      margin-bottom: 1.2rem;
-    }
-    .art-body p:last-child { margin-bottom: 0; }
-
-    .art-body strong { font-weight: 700; color: var(--heading); }
-
-    .art-body em { font-style: italic; color: var(--muted); }
-
-    /* ── Lists ───────────────────────────────────────────── */
-    .art-body ul,
-    .art-body ol {
-      padding-left: 1.4rem;
-      margin: 0.75rem 0 1.25rem;
-    }
-    .art-body li { margin: 0.35rem 0; }
-    .art-body li p { margin: 0; }
-
-    /* ── Tables ──────────────────────────────────────────── */
-    .art-body table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.875rem;
-      line-height: 1.5;
-      margin: 1.5rem 0 2rem;
-    }
-    .art-body th {
-      background: var(--table-head);
-      color: var(--heading);
-      font-weight: 700;
-      text-align: left;
-      padding: 0.6rem 0.9rem;
-      border-bottom: 2px solid var(--border);
-      white-space: nowrap;
-    }
-    .art-body td {
-      padding: 0.5rem 0.9rem;
-      border-bottom: 1px solid var(--border-lt);
-      vertical-align: top;
-    }
-    .art-body tr:last-child td { border-bottom: none; }
-    .art-body tr:nth-child(even) td { background: rgba(0,0,0,.025); }
-
-    @media (max-width: 560px) {
-      .art-body table { font-size: 0.8rem; }
-      .art-body th, .art-body td { padding: 0.4rem 0.6rem; }
-    }
-
-    /* ── Blockquote / callout box ────────────────────────── */
-    .art-body blockquote {
-      background: var(--toc-bg);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 var(--r) var(--r) 0;
-      margin: 1.5rem 0;
-      padding: 1rem 1.25rem;
-    }
-    .art-body blockquote p { margin: 0; }
-
-    /* ── Code ────────────────────────────────────────────── */
-    .art-body code {
-      font-size: 0.875em;
-      background: var(--code-bg);
-      padding: 0.1em 0.35em;
-      border-radius: 3px;
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-    }
-    .art-body pre {
-      background: var(--code-bg);
-      padding: 1rem 1.25rem;
-      border-radius: var(--r);
-      overflow-x: auto;
-      margin: 1.5rem 0;
-      font-size: 0.875rem;
-    }
-    .art-body pre code { background: none; padding: 0; }
-
-    /* ── Images ──────────────────────────────────────────── */
-    /*
-      Usage in content.md (raw HTML is supported in Markdown):
-        <figure class="img-right">
-          <img src="images/my-image.jpg" alt="Description">
-          <figcaption>Caption text</figcaption>
-        </figure>
-      Or for full-width:
-        ![Alt text](images/my-image.jpg)
-    */
-    .art-body img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      border-radius: var(--r);
-    }
-    .art-body figure {
-      margin: 2rem 0;
-    }
-    .art-body figcaption {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 0.5rem;
-      text-align: center;
-    }
-
-    /* Float variants — apply with class="img-right" / "img-left" on <figure> */
-    @media (min-width: 600px) {
-      .art-body .img-right {
-        float: right;
-        max-width: 46%;
-        margin: 0.25rem 0 1.5rem 2rem;
-        clear: right;
-      }
-      .art-body .img-left {
-        float: left;
-        max-width: 46%;
-        margin: 0.25rem 2rem 1.5rem 0;
-        clear: left;
-      }
-    }
-    .art-body .img-right,
-    .art-body .img-left { border-radius: var(--r); }
-
-    /* Clearfix after floated images */
-    .art-body h2, .art-body h3 { clear: both; }
-
-    /* ── HR ──────────────────────────────────────────────── */
-    .art-body hr {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 3rem 0;
-    }
-
-    /* ── Footer ──────────────────────────────────────────── */
-    footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 3rem 1.5rem 2.5rem;
-    }
-
-    .footer-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-    }
-
-    .fnav-label {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.09em;
-      color: var(--muted);
-      margin-bottom: 1.5rem;
-    }
-
-    .fnav-list {
-      list-style: none;
-      columns: 2;
-      column-gap: 2rem;
-      margin-bottom: 2.5rem;
-    }
-    @media (max-width: 480px) { .fnav-list { columns: 1; } }
-
-    .fnav-list li {
-      break-inside: avoid;
-      padding: 0.2rem 0;
-      font-size: 0.85rem;
-      line-height: 1.4;
-    }
-    .fnav-list .fnav-ch a {
-      font-weight: 700;
-      color: var(--heading);
-      text-decoration: none;
-    }
-    .fnav-list .fnav-sec a {
-      color: var(--muted);
-      text-decoration: none;
-      padding-left: 0.85rem;
-      display: block;
-      font-size: 0.8rem;
-    }
-    .fnav-list a:hover { color: var(--link); text-decoration: underline; }
-
-    .footer-meta {
-      font-size: 0.8rem;
-      color: var(--muted);
-      padding-top: 2rem;
-      border-top: 1px solid var(--border-lt);
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .footer-top { text-align: right; }
-    .footer-top a {
-      font-size: 0.8rem;
-      color: var(--muted);
-      text-decoration: none;
-    }
-    .footer-top a:hover { color: var(--link); }
-
-    /* ── Responsive base ─────────────────────────────────── */
-    @media (max-width: 540px) {
-      body { font-size: 16px; }
-      main { padding: 2.25rem 1rem 3.5rem; }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<main>
-  <article id="article-body">
-    <p id="loading" aria-live="polite">Inhalt wird geladen…</p>
-  </article>
-</main>
+<!-- ════════════════════════════════════════════════════════
+     1. ABOVE THE FOLD – simple, text-only, no scroll
+════════════════════════════════════════════════════════ -->
+<div class="fold" id="top">
+  <div class="page-wrap">
+    <p class="fold-label">B2B Content · KI-Strategie · Conversion Copy</p>
+    <h1>Komplexes klar.<br>Wirkung messbar.</h1>
+    <p class="fold-sub">Fachartikel, Whitepapers und Copy, die Entscheider überzeugen – fundiert, präzise, ohne Buzzword-Nebel.</p>
+    <a href="#hero" class="btn">Mehr erfahren</a>
+    <a href="portfolio.html" class="btn btn--outline">Portfolio ansehen</a>
+  </div>
+</div>
 
-<footer id="page-footer">
-  <div class="footer-inner">
-    <nav id="footer-nav" aria-label="Seiten-Navigation"></nav>
-    <div class="footer-meta">
-      <span>Fachartikel · Business Intelligence · April 2026</span>
-      <span class="footer-top"><a href="#article-body">↑ Seitenanfang</a></span>
+<!-- ════════════════════════════════════════════════════════
+     2. HERO – Wer bin ich / Was mache ich
+════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="page-wrap">
+    <p class="section-label">Über mich</p>
+    <h2 class="section-title">B2B-Content, der Komplexes beherrschbar macht</h2>
+    <p class="section-lead">Ich verbinde technisches Verständnis mit klarer Sprache – für Content, der informiert, positioniert und konvertiert.</p>
+
+    <div class="impact-grid">
+      <div class="impact-box box-1">
+        <span class="impact-kw">Ansatz</span>
+        <h3 class="impact-headline">Strategie zuerst</h3>
+        <p class="impact-body">Kein Content ohne Ziel. Jedes Stück beginnt mit der Frage: Wer liest das, warum, und was soll danach passieren? Erst dann wird geschrieben.</p>
+      </div>
+      <div class="impact-box box-2">
+        <span class="impact-kw">Domäne</span>
+        <h3 class="impact-headline">Technologie &amp; KI</h3>
+        <p class="impact-body">Ich durchdringe komplexe Themen – von RAG-Architekturen bis Vektordatenbanken – und übersetze sie in Sprache, die Entscheider versteht.</p>
+      </div>
+      <div class="impact-box box-3">
+        <span class="impact-kw">Ergebnis</span>
+        <h3 class="impact-headline">Messbare Wirkung</h3>
+        <p class="impact-body">Organische Reichweite, qualifizierte Leads, glaubwürdige Thought-Leadership. Content ist kein Selbstzweck – er muss liefern.</p>
+      </div>
     </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     3. BENEFITS – 3 Vorteile
+════════════════════════════════════════════════════════ -->
+<section id="vorteile">
+  <div class="page-wrap">
+    <p class="section-label">Warum zusammenarbeiten</p>
+    <h2 class="section-title">Was Sie von mir bekommen</h2>
+    <p class="section-lead">Keine generischen Texte. Kein Outsourcing an KI-Tools ohne Redaktion. Nur handwerklich sauberer, strategisch durchdachter Content.</p>
+
+    <div class="phases">
+      <div class="phase-card">
+        <div class="phase-icon" aria-hidden="true">🎯</div>
+        <p class="phase-num">Vorteil 1</p>
+        <p class="phase-title">Fachtiefe</p>
+        <p class="phase-sub">Ich recherchiere und verstehe das Thema wirklich – kein Oberflächenrauschen, sondern Substanz, die Glaubwürdigkeit erzeugt.</p>
+      </div>
+      <div class="phase-arrow" aria-hidden="true">→</div>
+      <div class="phase-card">
+        <div class="phase-icon" aria-hidden="true">✍️</div>
+        <p class="phase-num">Vorteil 2</p>
+        <p class="phase-title">Klare Sprache</p>
+        <p class="phase-sub">Komplexe Themen in verständliche, packende Sätze übersetzen – ohne Vereinfachung, die Substanz kostet.</p>
+      </div>
+      <div class="phase-arrow" aria-hidden="true">→</div>
+      <div class="phase-card">
+        <div class="phase-icon" aria-hidden="true">📈</div>
+        <p class="phase-num">Vorteil 3</p>
+        <p class="phase-title">Wirkungsorientierung</p>
+        <p class="phase-sub">Jedes Format wird mit Blick auf das Ziel gestaltet – ob SEO-Reichweite, Lead-Qualität oder Conversion-Rate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     4. PORTFOLIO – Referenzen & Link
+════════════════════════════════════════════════════════ -->
+<section id="portfolio">
+  <div class="page-wrap">
+    <p class="section-label">Portfolio</p>
+    <h2 class="section-title">7 Projekte. Echte Resultate.</h2>
+    <p class="section-lead">Von SEO-Langform-Artikeln über B2B-Whitepapers bis zu Conversion-Landingpages – ein Querschnitt durch die Arbeit.</p>
+
+    <div class="portfolio-preview">
+      <div class="portfolio-preview-text">
+        <h3>Case Studies: B2B Content &amp; Conversion Copy</h3>
+        <p>7 reale Projekte mit Strategie-Briefing, Proof Points und Zitaten direkt aus dem Content – nachvollziehbar, nicht nur behauptet.</p>
+        <a href="portfolio.html" class="btn btn--dark">Zum vollständigen Portfolio →</a>
+      </div>
+      <ul class="portfolio-preview-icons">
+          <li>📄 SEO-Artikel (Langform)</li>
+          <li>📊 B2B Whitepapers</li>
+          <li>🎯 Conversion Landingpages</li>
+          <li>📰 Advertorials / Native Advertising</li>
+          <li>📧 E-Mail-Nurturing-Sequenzen</li>
+        </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     5. ARTIKEL – Aktuelle Fachartikel
+════════════════════════════════════════════════════════ -->
+<section id="artikel">
+  <div class="page-wrap">
+    <p class="section-label">Fachartikel</p>
+    <h2 class="section-title">Aus der Redaktion</h2>
+    <p class="section-lead">Tiefgehende Artikel zu KI, Business Intelligence und Technologie-Strategie – für Entscheider, die mehr als Headlines wollen.</p>
+
+    <div class="articles-grid">
+      <div class="article-card">
+        <p class="article-card-tag">Business Intelligence · April 2026</p>
+        <h3>Retrieval-Augmented Generation (RAG)</h3>
+        <p>Von der Sprachspielerei zur belegbaren Firmenwahrheit: RAG-Architektur, Business-Impact und Enterprise-Implementierung im vollständigen Überblick.</p>
+        <a href="ragtext.html" class="card-link">Zum Fachartikel →</a>
+      </div>
+
+      <div class="article-card">
+        <p class="article-card-tag">RAG-Ratgeber · April 2026</p>
+        <h3>RAG im Unternehmen: Der vollständige Ratgeber</h3>
+        <p>Definition, 3-Phasen-Modell, Marktanalyse und Best Practices – alles, was Entscheider über Retrieval-Augmented Generation wissen müssen.</p>
+        <a href="rag-ratgeber.html" class="card-link">Zum Ratgeber →</a>
+      </div>
+
+      <div class="article-card">
+        <p class="article-card-tag">Business Intelligence · April 2026</p>
+        <h3>Vektor-Datenbanken für Führungskräfte</h3>
+        <p>KI-Suche, Embeddings und RAG-Pipelines verständlich erklärt – mit Plattformvergleich und strategischen Empfehlungen für KMU.</p>
+        <a href="vector.html" class="card-link">Zum Leitfaden →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     6. TEMPLATE SECTION A – Platzhalter (z. B. Services)
+════════════════════════════════════════════════════════ -->
+<section id="leistungen">
+  <div class="page-wrap">
+    <p class="section-label">Leistungen</p>
+    <h2 class="section-title">Was ich anbiete</h2>
+    <p class="section-lead">Dieser Bereich ist als Template-Sektion vorbereitet. Inhalt folgt.</p>
+
+    <div class="opt-grid">
+      <div class="opt-card">
+        <p class="opt-card-title">Content-Strategie &amp; Redaktion</p>
+        <p class="opt-card-body">Platzhalter – Beschreibung der Leistung folgt. Themen, Formate, Distributionskanäle.</p>
+      </div>
+      <div class="opt-card">
+        <p class="opt-card-title">Conversion Copy &amp; Landingpages</p>
+        <p class="opt-card-body">Platzhalter – Beschreibung der Leistung folgt. Value Proposition, CTA-Struktur, A/B-Testing.</p>
+      </div>
+      <div class="opt-card">
+        <p class="opt-card-title">KI-Fachartikel &amp; Whitepapers</p>
+        <p class="opt-card-body">Platzhalter – Beschreibung der Leistung folgt. Recherche, Struktur, Thought Leadership.</p>
+      </div>
+      <div class="opt-card">
+        <p class="opt-card-title">E-Mail-Sequences &amp; Nurturing</p>
+        <p class="opt-card-body">Platzhalter – Beschreibung der Leistung folgt. Welcome-Flows, Onboarding, Re-Engagement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     7. TEMPLATE SECTION B – Platzhalter (z. B. Prozess / Zusammenarbeit)
+════════════════════════════════════════════════════════ -->
+<section id="prozess">
+  <div class="page-wrap">
+    <p class="section-label">Zusammenarbeit</p>
+    <h2 class="section-title">So arbeiten wir zusammen</h2>
+    <p class="section-lead">Dieser Bereich ist als Template-Sektion vorbereitet. Inhalt folgt.</p>
+
+    <div class="phases">
+      <div class="phase-card">
+        <div class="phase-icon" aria-hidden="true">💬</div>
+        <p class="phase-num">Schritt 1</p>
+        <p class="phase-title">Briefing</p>
+        <p class="phase-sub">Platzhalter – Beschreibung des ersten Schritts folgt.</p>
+      </div>
+      <div class="phase-arrow" aria-hidden="true">→</div>
+      <div class="phase-card">
+        <div class="phase-icon" aria-hidden="true">📝</div>
+        <p class="phase-num">Schritt 2</p>
+        <p class="phase-title">Erstellung</p>
+        <p class="phase-sub">Platzhalter – Beschreibung des zweiten Schritts folgt.</p>
+      </div>
+      <div class="phase-arrow" aria-hidden="true">→</div>
+      <div class="phase-card">
+        <div class="phase-icon" aria-hidden="true">🚀</div>
+        <p class="phase-num">Schritt 3</p>
+        <p class="phase-title">Freigabe</p>
+        <p class="phase-sub">Platzhalter – Beschreibung des dritten Schritts folgt.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     8. TEMPLATE SECTION C – Platzhalter (z. B. Kontakt / CTA)
+════════════════════════════════════════════════════════ -->
+<div class="cta-banner" id="kontakt" role="complementary" aria-label="Kontakt">
+  <div class="page-wrap">
+    <p class="cta-label">Kontakt</p>
+    <h2 class="cta-headline">Bereit für Content, der wirklich wirkt?</h2>
+    <p class="cta-body">
+      Dieser Bereich ist als Template-Sektion vorbereitet – ideal für einen Kontaktbereich oder eine finale CTA-Sektion. <strong>Inhalt und Links folgen.</strong>
+    </p>
+    <a href="mailto:kontakt@example.com" class="cta-action">Kontakt aufnehmen →</a>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner footer-row">
+    <span>Karl Krat · B2B Content &amp; KI-Strategie · 2026</span>
+    <span>
+      <a href="portfolio.html">Portfolio</a> ·
+      <a href="ragtext.html">RAG-Artikel</a> ·
+      <a href="#top" aria-label="Zurück zum Seitenanfang">↑ Seitenanfang</a>
+    </span>
   </div>
 </footer>
 
-<noscript>
-  <div style="max-width:740px;margin:3rem auto;padding:0 1.5rem;font-family:system-ui,sans-serif;color:#2d2b28">
-    <h1 style="font-size:2rem;margin-bottom:1rem">Retrieval-Augmented Generation (RAG)</h1>
-    <p>Bitte aktivieren Sie JavaScript, um diesen Fachartikel anzuzeigen.</p>
-  </div>
-</noscript>
-
-<!-- marked.js – lightweight Markdown parser (~24 KB gzip ~9 KB) -->
-<script src="https://cdn.jsdelivr.net/npm/marked@14/marked.min.js" crossorigin="anonymous"></script>
-<script>
-(async function () {
-  'use strict';
-
-  /* ── helpers ──────────────────────────────────────────── */
-
-  function slugify(text) {
-    return text
-      .toLowerCase()
-      .replace(/[|]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/[^\w\-]/g, '')
-      .replace(/-{2,}/g, '-')
-      .replace(/^-|-$/g, '');
-  }
-
-  function buildInlineToc(items) {
-    if (!items.length) return '';
-    let h = '<ul class="toc-list">';
-    items.forEach(function (it) {
-      h += '<li class="' + (it.level === 2 ? 'toc-l2' : 'toc-l3') + '">'
-        + '<a href="#' + it.id + '">' + esc(it.text) + '</a></li>';
-    });
-    return h + '</ul>';
-  }
-
-  function buildFooterNav(items) {
-    if (!items.length) return '';
-    let h = '<ul class="fnav-list">';
-    items.forEach(function (it) {
-      var cls = it.level === 2 ? 'fnav-ch' : 'fnav-sec';
-      h += '<li class="' + cls + '"><a href="#' + it.id + '">' + esc(it.text) + '</a></li>';
-    });
-    return h + '</ul>';
-  }
-
-  function esc(s) {
-    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
-
-  /* ── main ─────────────────────────────────────────────── */
-
-  try {
-    var res = await fetch('content.md');
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    var raw = await res.text();
-
-    /* ── split preamble / body at first top-level heading ── */
-    var splitIdx = raw.search(/\n# /);
-    var preamble = splitIdx >= 0 ? raw.slice(0, splitIdx) : '';
-    var body     = splitIdx >= 0 ? raw.slice(splitIdx + 1) : raw;
-
-    /* ── extract metadata from preamble ────────────────── */
-    var boldRe    = /^\*\*(.+?)\*\*$/;
-    var titleParts = [], metaParts = [];
-    var inToc = false;
-
-    preamble.split('\n').forEach(function (line) {
-      line = line.trim();
-      if (!line) return;
-      if (line.includes('Inhaltsverzeichnis')) { inToc = true; return; }
-      if (inToc || line.startsWith('[')) return;
-      var m = line.match(boldRe);
-      if (m) { titleParts.push(m[1]); }
-      else    { metaParts.push(line); }
-    });
-
-    var title    = titleParts.join(' ');
-    var subtitle = metaParts[1] || '';
-    var category = metaParts[2] || '';
-    var date     = metaParts[3] || '';
-    var tagLine  = [category, date].filter(Boolean).join(' · ');
-
-    /* ── pre-process markdown ───────────────────────────── */
-    /*
-     * 1. Strip ** bold markers from headings  (# **Title** → # Title)
-     * 2. Shift all heading levels down by one (# → ##, ## → ###)
-     *    so H1 is reserved for the page title in <header>.
-     */
-    var processed = body
-      .replace(/^(#{1,6}) \*\*(.+?)\*\*[ \t]*$/gm, '$1 $2')
-      .replace(/^(#{1,6} )/gm, function (m) { return '#' + m; });
-
-    /* ── parse to HTML ──────────────────────────────────── */
-    var htmlStr = marked.parse(processed);
-
-    /* ── post-process: add IDs, build TOC ──────────────── */
-    var domParser = new DOMParser();
-    var doc = domParser.parseFromString(htmlStr, 'text/html');
-    var toc = [], seen = new Set();
-
-    doc.querySelectorAll('h2, h3').forEach(function (el) {
-      var id = slugify(el.textContent);
-      if (seen.has(id)) {
-        var n = 2;
-        while (seen.has(id + '-' + n)) n++;
-        id = id + '-' + n;
-      }
-      seen.add(id);
-      el.id = id;
-      toc.push({ level: el.tagName === 'H2' ? 2 : 3, text: el.textContent.trim(), id: id });
-    });
-
-    var contentHtml = doc.body.innerHTML;
-
-    /* ── render article ─────────────────────────────────── */
-    var article = document.getElementById('article-body');
-    article.innerHTML =
-      '<header class="art-header">'
-      + (tagLine ? '<p class="art-tag">' + esc(tagLine) + '</p>' : '')
-      + '<h1>' + esc(title) + '</h1>'
-      + (subtitle ? '<p class="art-subtitle">' + esc(subtitle) + '</p>' : '')
-      + '</header>'
-      + (toc.length
-          ? '<details class="toc-box" open><summary>Inhaltsverzeichnis</summary>'
-            + buildInlineToc(toc) + '</details>'
-          : '')
-      + '<div class="art-body">' + contentHtml + '</div>';
-
-    /* ── render footer nav ──────────────────────────────── */
-    document.getElementById('footer-nav').innerHTML =
-      '<p class="fnav-label">Navigation</p>' + buildFooterNav(toc);
-
-  } catch (err) {
-    var el = document.getElementById('loading') || document.getElementById('article-body');
-    if (el) {
-      el.textContent = 'Inhalt konnte nicht geladen werden. '
-        + 'Bitte stellen Sie sicher, dass die Seite über einen HTTP-Server aufgerufen wird.';
-    }
-    console.error('Content load error:', err);
-  }
-
-}());
-</script>
 </body>
 </html>
