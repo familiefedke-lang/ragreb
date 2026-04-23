@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAG-Ratgeber: Retrieval-Augmented Generation für Unternehmen</title>
+  <meta name="description" content="Der RAG-Ratgeber: Von der Definition über die Architektur bis zum Business-Impact. Retrieval-Augmented Generation verständlich erklärt für Entscheider.">
+  <meta name="keywords" content="RAG, Retrieval-Augmented Generation, LLM, Vektordatenbank, KI, Künstliche Intelligenz, Business Intelligence, LangChain, LlamaIndex, Azure AI Search">
+  <meta name="author" content="Karl Krat">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="RAG-Ratgeber: Retrieval-Augmented Generation für Unternehmen">
+  <meta property="og:description" content="Von der Sprachspielerei zur belegbaren Firmenwahrheit. Definition, Architektur, Business-Impact und Use Cases zu Retrieval-Augmented Generation.">
+  <meta property="og:locale" content="de_DE">
+  <meta property="article:published_time" content="2026-04-01">
+  <meta property="article:author" content="Karl Krat">
+  <meta property="article:tag" content="RAG">
+  <meta property="article:tag" content="Business Intelligence">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "RAG-Ratgeber: Retrieval-Augmented Generation – Von der Definition zur Umsetzung im Unternehmen",
+    "description": "Definition, Architektur, Business-Impact, Tool-Landschaft und Use Cases zu Retrieval-Augmented Generation.",
+    "author": { "@type": "Person", "name": "Karl Krat" },
+    "datePublished": "2026-04-01",
+    "inLanguage": "de-DE",
+    "about": { "@type": "Thing", "name": "Retrieval-Augmented Generation" }
+  }
+  </script>
+
+  <style>
+    /* ── Reset ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Tokens ──────────────────────────────────────────── */
+    :root {
+      --bg:          #f7f5f0;
+      --surface:     #ffffff;
+      --text:        #2d2b28;
+      --muted:       #72706c;
+      --heading:     #1a1917;
+      --border:      #dbd8d2;
+      --border-lt:   #eae7e1;
+      --toc-bg:      #efede7;
+      --table-head:  #e8e5de;
+      --code-bg:     #edebe5;
+      --link:        #1a4a7a;
+      --accent:      #3d3b38;
+      --accent2:     #1a4a7a;
+      --max:         960px;
+      --font:        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      --r:           6px;
+    }
+
+    /* ── Base ────────────────────────────────────────────── */
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 17px;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--link); }
+    a:hover { text-decoration: underline; }
+
+    /* ── Outer wrapper ───────────────────────────────────── */
+    .page-wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       1. HERO SECTION
+    ════════════════════════════════════════════════════════ */
+    .hero {
+      background: var(--heading);
+      color: #fff;
+      padding: 5rem 1.5rem 4rem;
+      text-align: center;
+    }
+
+    .hero .page-wrap { max-width: 800px; }
+
+    .hero-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    .hero-subline {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-weight: 400;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 2rem;
+      line-height: 1.45;
+    }
+
+    .hero-intro {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.75;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .hero-intro strong {
+      color: rgba(255,255,255,0.9);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       SECTION SHARED
+    ════════════════════════════════════════════════════════ */
+    section {
+      padding: 4rem 1.5rem;
+    }
+
+    section:nth-child(even) {
+      background: var(--surface);
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 800;
+      color: var(--heading);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .section-lead {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 640px;
+      margin-bottom: 2.5rem;
+      line-height: 1.6;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       2. DEFINITION – 3-PHASE MODEL
+    ════════════════════════════════════════════════════════ */
+    #definition .page-wrap { max-width: var(--max); }
+
+    .phases {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      margin-bottom: 2.5rem;
+    }
+
+    .phase-card {
+      flex: 1;
+      background: var(--toc-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.75rem 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .phase-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--heading);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin: 0 auto 1rem;
+    }
+
+    .phase-num {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .phase-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--heading);
+      margin-bottom: 0.6rem;
+    }
+
+    .phase-sub {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .phase-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 0.75rem;
+      color: var(--muted);
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 600px) {
+      .phases {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .phase-arrow {
+        transform: rotate(90deg);
+        padding: 0;
+      }
+    }
+
+    /* Formula box */
+    .formula-box {
+      background: var(--heading);
+      color: #fff;
+      border-radius: var(--r);
+      padding: 1.75rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .formula-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 0.35rem;
+    }
+
+    .formula-text {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+    }
+
+    .formula-text em {
+      font-style: normal;
+      color: rgba(255,255,255,0.55);
+      font-weight: 400;
+      font-size: 0.85em;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       3. BUSINESS IMPACT – 3 HIGHLIGHT BOXES
+    ════════════════════════════════════════════════════════ */
+    #business-impact { background: var(--surface); }
+
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    @media (max-width: 700px) {
+      .impact-grid { grid-template-columns: 1fr; }
+    }
+
+    .impact-box {
+      border-radius: var(--r);
+      padding: 2rem 1.75rem;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .impact-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--heading);
+    }
+
+    .impact-box.box-2::before { background: var(--accent2); }
+    .impact-box.box-3::before { background: #5a4a3a; }
+
+    .impact-kw {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--heading);
+      margin-bottom: 0.9rem;
+      display: block;
+    }
+
+    .impact-box.box-2 .impact-kw { color: var(--accent2); }
+    .impact-box.box-3 .impact-kw { color: #5a4a3a; }
+
+    .impact-headline {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--heading);
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+
+    .impact-body {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .impact-vs {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      font-size: 0.82rem;
+    }
+
+    .impact-pro {
+      background: #e8f4e8;
+      color: #2a622a;
+      border-radius: 3px;
+      padding: 0.2rem 0.5rem;
+      font-weight: 600;
+    }
+
+    .impact-con {
+      background: #f4e8e8;
+      color: #762222;
+      border-radius: 3px;
+      padding: 0.2rem 0.5rem;
+      font-weight: 600;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       4. TECHNISCHE TIEFENBOHRUNG – SPLIT SCREEN
+    ════════════════════════════════════════════════════════ */
+    #technik { }
+
+    .split-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 650px) {
+      .split-panel { grid-template-columns: 1fr; }
+    }
+
+    .split-side {
+      border-radius: var(--r);
+      padding: 2rem 1.75rem;
+    }
+
+    .split-side.offline {
+      background: var(--toc-bg);
+      border: 1px solid var(--border);
+    }
+
+    .split-side.online {
+      background: var(--heading);
+      color: #fff;
+    }
+
+    .split-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 3px;
+      margin-bottom: 0.9rem;
+    }
+
+    .offline .split-badge {
+      background: var(--border);
+      color: var(--muted);
+    }
+
+    .online .split-badge {
+      background: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.75);
+    }
+
+    .split-heading {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 1.25rem;
+      line-height: 1.25;
+    }
+
+    .offline .split-heading { color: var(--heading); }
+    .online .split-heading  { color: #fff; }
+
+    .checklist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .checklist li {
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .checklist .step-icon {
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      margin-top: 0.1rem;
+    }
+
+    .offline .step-icon {
+      background: var(--heading);
+      color: #fff;
+    }
+
+    .online .step-icon {
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+    }
+
+    .checklist .step-body strong {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 0.15rem;
+    }
+
+    .offline .step-body strong { color: var(--heading); }
+    .online .step-body strong  { color: #fff; }
+
+    .offline .step-body { color: var(--muted); }
+    .online .step-body  { color: rgba(255,255,255,0.72); }
+
+    /* ════════════════════════════════════════════════════════
+       5. FUNKTIONALES RÜCKGRAT – 4×2 GRID
+    ════════════════════════════════════════════════════════ */
+    #saeulen { background: var(--surface); }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 800px) {
+      .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .pillars-grid { grid-template-columns: 1fr; }
+    }
+
+    .pillar-tile {
+      background: var(--toc-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.25rem 1.1rem;
+    }
+
+    .pillar-num {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .pillar-name {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--heading);
+      margin-bottom: 0.4rem;
+    }
+
+    .pillar-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       6. MARKTANALYSE – TOOL-VERGLEICHSTABELLE
+    ════════════════════════════════════════════════════════ */
+    #markt { }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 2rem;
+      border-radius: var(--r);
+      border: 1px solid var(--border);
+    }
+
+    .tool-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      min-width: 560px;
+    }
+
+    .tool-table th {
+      background: var(--table-head);
+      color: var(--heading);
+      font-weight: 700;
+      text-align: left;
+      padding: 0.7rem 1rem;
+      border-bottom: 2px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .tool-table td {
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--border-lt);
+      vertical-align: top;
+    }
+
+    .tool-table tr:last-child td { border-bottom: none; }
+    .tool-table tr:nth-child(even) td { background: rgba(0,0,0,.025); }
+
+    .tool-name {
+      font-weight: 700;
+      color: var(--heading);
+    }
+
+    .badge-type {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.15rem 0.45rem;
+      border-radius: 3px;
+      background: var(--toc-bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .deploy-cloud  { background: #e8f0fb; color: #1a4a7a; border-color: #b8d0f0; }
+    .deploy-hybrid { background: #f0ebe0; color: #5a4a2a; border-color: #d8c8a0; }
+    .deploy-onprem { background: #e8f4e8; color: #2a622a; border-color: #a8d4a8; }
+
+    /* ════════════════════════════════════════════════════════
+       7. BEST PRACTICES – 2-SPALTEN-TABELLE
+    ════════════════════════════════════════════════════════ */
+    #best-practices { background: var(--surface); }
+
+    .bp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 620px) {
+      .bp-grid { grid-template-columns: 1fr; }
+    }
+
+    .bp-card {
+      border-radius: var(--r);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .bp-card-head {
+      padding: 0.85rem 1.25rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .bp-card.do .bp-card-head   { background: #e8f4e8; color: #2a622a; }
+    .bp-card.dont .bp-card-head { background: #f4e8e8; color: #762222; }
+
+    .bp-card-body {
+      padding: 1.1rem 1.25rem;
+    }
+
+    .bp-item {
+      display: flex;
+      gap: 0.65rem;
+      font-size: 0.88rem;
+      color: var(--text);
+      line-height: 1.55;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--border-lt);
+    }
+
+    .bp-item:last-child { border-bottom: none; }
+
+    .bp-item-icon {
+      flex-shrink: 0;
+      font-size: 1rem;
+      line-height: 1.55;
+    }
+
+    .bp-item strong {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 0.1rem;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       8. USE CASES – 2 KARTEN
+    ════════════════════════════════════════════════════════ */
+    #use-cases { }
+
+    .uc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 680px) {
+      .uc-grid { grid-template-columns: 1fr; }
+    }
+
+    .uc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+
+    .uc-card-header {
+      padding: 1.5rem 1.75rem 1.25rem;
+      border-bottom: 1px solid var(--border-lt);
+    }
+
+    .uc-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 3px;
+      background: var(--toc-bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      margin-bottom: 0.75rem;
+    }
+
+    .uc-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--heading);
+      line-height: 1.25;
+    }
+
+    .uc-card-body {
+      padding: 1.5rem 1.75rem;
+    }
+
+    .uc-row {
+      margin-bottom: 1.1rem;
+    }
+
+    .uc-row:last-child { margin-bottom: 0; }
+
+    .uc-row-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .uc-row-label.pain  { color: #9a3a2a; }
+    .uc-row-label.solution { color: #2a6a2a; }
+    .uc-row-label.result { color: var(--accent2); }
+
+    .uc-row-text {
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       9. CLOSING / CTA
+    ════════════════════════════════════════════════════════ */
+    .cta-banner {
+      background: var(--heading);
+      color: #fff;
+      padding: 5rem 1.5rem;
+      text-align: center;
+    }
+
+    .cta-banner .page-wrap { max-width: 680px; }
+
+    .cta-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 1.25rem;
+    }
+
+    .cta-headline {
+      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+    }
+
+    .cta-body {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.75;
+      margin-bottom: 2rem;
+    }
+
+    .cta-body strong {
+      color: #fff;
+    }
+
+    .cta-action {
+      display: inline-block;
+      background: #fff;
+      color: var(--heading);
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 0.8rem 2rem;
+      border-radius: var(--r);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .cta-action:hover {
+      background: rgba(255,255,255,0.9);
+      text-decoration: none;
+    }
+
+    /* ── Footer ──────────────────────────────────────────── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+    }
+
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .footer-inner a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .footer-inner a:hover { color: var(--link); }
+
+    /* ── Responsive base ─────────────────────────────────── */
+    @media (max-width: 540px) {
+      body { font-size: 16px; }
+      section { padding: 3rem 1rem; }
+      .hero { padding: 3.5rem 1rem 3rem; }
+      .cta-banner { padding: 3.5rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════
+     1. HERO SECTION
+════════════════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="page-wrap">
+    <p class="hero-tag">Fachartikel · Business Intelligence · April 2026</p>
+    <h1>Retrieval-Augmented Generation (RAG)</h1>
+    <p class="hero-subline">Der Schritt von der Sprachspielerei zur belegbaren Firmenwahrheit.</p>
+    <p class="hero-intro">
+      Der Einsatz von Large Language Models in Unternehmen scheitert oft an einem fundamentalen Paradoxon: Die Modelle sind rhetorisch brillant, aber faktisch isoliert. Sie agieren als <strong>Echokammer-Intelligenzen</strong> – ihr Wissen basiert ausschließlich auf statischen Trainingsdaten der Vergangenheit. In einer dynamischen Geschäftswelt führt dies zur <strong>Plausibilitäts-Falle</strong>: Die KI liefert Antworten, die fachlich korrekt klingen, aber mangels Zugriff auf aktuelle Firmendaten faktisch entkernt sind. <strong>RAG bricht dieses Muster auf</strong> – und transformiert die KI von einer Wissens-Konserve zu einem Echtzeit-Gedächtnis.
+    </p>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════
+     2. DEFINITION – 3-PHASEN-MODELL
+════════════════════════════════════════════════════════ -->
+<section id="definition">
+  <div class="page-wrap">
+    <p class="section-label">Die Definition</p>
+    <h2 class="section-title">RAG: Brücke zur Firmenwahrheit</h2>
+    <p class="section-lead">RAG ist keine monolithische Software, sondern eine Architektur, die den Prozess der Antwortgenerierung in drei Phasen professionalisiert – vom „Konfabulier-Automaten" zum Kontext-Kurator.</p>
+
+    <div class="phases">
+      <div class="phase-card">
+        <div class="phase-icon" aria-hidden="true">🔍</div>
+        <p class="phase-num">Phase 1</p>
+        <p class="phase-title">Retrieval</p>
+        <p class="phase-sub">Das System identifiziert in Millisekunden relevante Passagen aus Ihren Datenquellen – Wikis, ERP, Handbücher.</p>
+      </div>
+      <div class="phase-arrow" aria-hidden="true">→</div>
+      <div class="phase-card">
+        <div class="phase-icon" aria-hidden="true">⚡</div>
+        <p class="phase-num">Phase 2</p>
+        <p class="phase-title">Augmentation</p>
+        <p class="phase-sub">Die gefundenen Fakten werden dem Nutzer-Prompt als unverrückbarer Kontext hinzugefügt.</p>
+      </div>
+      <div class="phase-arrow" aria-hidden="true">→</div>
+      <div class="phase-card">
+        <div class="phase-icon" aria-hidden="true">✍️</div>
+        <p class="phase-num">Phase 3</p>
+        <p class="phase-title">Generation</p>
+        <p class="phase-sub">Das LLM formuliert die Antwort ausschließlich auf Basis dieses verifizierten Kontextes.</p>
+      </div>
+    </div>
+
+    <div class="formula-box" role="note">
+      <div>
+        <p class="formula-label">Kernformel</p>
+        <p class="formula-text">RAG = Suche&nbsp;+&nbsp;LLM&ensp;<em>|&ensp;Beleg-Autorität&nbsp;+&nbsp;Artikulations-Layer</em></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     3. BUSINESS IMPACT – 3 HIGHLIGHT-BOXEN
+════════════════════════════════════════════════════════ -->
+<section id="business-impact">
+  <div class="page-wrap">
+    <p class="section-label">Der Business-Impact</p>
+    <h2 class="section-title">Drei Hauptvorteile für Entscheider</h2>
+    <p class="section-lead">RAG schließt die kritische Lücke zwischen linguistischer Eloquenz und der notwendigen Präzision geschäftlicher Entscheidungen.</p>
+
+    <div class="impact-grid">
+      <div class="impact-box box-1">
+        <span class="impact-kw">Vorteil 1</span>
+        <h3 class="impact-headline">WAHRHEITSGARANTIE</h3>
+        <p class="impact-body">RAG beendet das Zeitalter der digitalen Hochstapelei. Jede Aussage ist das Resultat eines Abgleichs mit dem firmeninternen Wahrheitskern – belegbar durch Quellenangaben. Die KI rät nicht mehr, sie zitiert.</p>
+        <div class="impact-vs">
+          <span class="impact-pro">Grounding</span>
+          <span class="impact-con">vs. Hochstapelei</span>
+        </div>
+      </div>
+
+      <div class="impact-box box-2">
+        <span class="impact-kw">Vorteil 2</span>
+        <h3 class="impact-headline">EFFIZIENZ-TURBO</h3>
+        <p class="impact-body">RAG fungiert als intelligenter Konnektivitäts-Layer. Verstreutes Wissen aus dezentralen Silos – SharePoint, Confluence, ERP – wird sofort abfragbar, ohne teure Datenmigration. Sekundengetaktete Punktlandungen statt 20-minütiger Recherche.</p>
+        <div class="impact-vs">
+          <span class="impact-pro">Echtzeit-Gedächtnis</span>
+          <span class="impact-con">vs. Datengräber</span>
+        </div>
+      </div>
+
+      <div class="impact-box box-3">
+        <span class="impact-kw">Vorteil 3</span>
+        <h3 class="impact-headline">COMPLIANCE-ANKER</h3>
+        <p class="impact-body">Lückenlose Audit-Trails dokumentieren, welche Quelle für welche Antwort herangezogen wurde. RBAC-Integration stellt sicher, dass jeder Nutzer nur Antworten aus Dokumenten erhält, für die er Leseberechtigung besitzt.</p>
+        <div class="impact-vs">
+          <span class="impact-pro">Revisionssicherheit</span>
+          <span class="impact-con">vs. Black-Box</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     4. TECHNISCHE TIEFENBOHRUNG – SPLIT SCREEN
+════════════════════════════════════════════════════════ -->
+<section id="technik">
+  <div class="page-wrap">
+    <p class="section-label">Technische Tiefenbohrung</p>
+    <h2 class="section-title">Offline &amp; Online: Die zwei Phasen der RAG-Pipeline</h2>
+    <p class="section-lead">Ein RAG-System unterteilt den Prozess in eine Vorbereitungsphase (Offline) und eine Antwortphase (Online). Erst das präzise Ineinandergreifen dieser Bausteine garantiert belastbare Fakten.</p>
+
+    <div class="split-panel">
+      <!-- Offline -->
+      <div class="split-side offline">
+        <span class="split-badge">Offline-Phase</span>
+        <h3 class="split-heading">Ingestion: Das Fundament der Daten-Souveränität</h3>
+        <ul class="checklist" aria-label="Offline-Phase Schritte">
+          <li>
+            <span class="step-icon" aria-hidden="true">1</span>
+            <div class="step-body">
+              <strong>Kuratierung</strong>
+              Anbindung über Konnektoren (SharePoint, ERP, PDFs). Entfernung von Kopfzeilen, Artefakten und Rauschen für saubere Textgrundlage.
+            </div>
+          </li>
+          <li>
+            <span class="step-icon" aria-hidden="true">2</span>
+            <div class="step-body">
+              <strong>Chunking</strong>
+              Portionierung in 200–1.000 Token mit 10–20 % Überlappung, damit keine Informationen an den Schnittstellen verloren gehen.
+            </div>
+          </li>
+          <li>
+            <span class="step-icon" aria-hidden="true">3</span>
+            <div class="step-body">
+              <strong>Vektorisierung</strong>
+              Ein Embedding-Modell übersetzt Textportionen in hochdimensionale Vektoren. Das Ergebnis wandert in die Vektordatenbank – das digitale Langzeitgedächtnis.
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Online -->
+      <div class="split-side online">
+        <span class="split-badge">Online-Phase</span>
+        <h3 class="split-heading">Retrieval: Der dynamische Fakten-Check</h3>
+        <ul class="checklist" aria-label="Online-Phase Schritte">
+          <li>
+            <span class="step-icon" aria-hidden="true">1</span>
+            <div class="step-body">
+              <strong>Semantische Suche</strong>
+              Die Nutzeranfrage wird vektorisiert. Die Datenbank findet nach inhaltlicher Nähe – nicht nach Stichworten – die passenden Wissens-Chunks.
+            </div>
+          </li>
+          <li>
+            <span class="step-icon" aria-hidden="true">2</span>
+            <div class="step-body">
+              <strong>Hybrid-Filter</strong>
+              Kombination aus semantischer Vektorsuche und klassischen Metadaten-Filtern (z. B. „Nur Verträge aus 2024"). Berechtigungskonzepte bleiben gewahrt.
+            </div>
+          </li>
+          <li>
+            <span class="step-icon" aria-hidden="true">3</span>
+            <div class="step-body">
+              <strong>Prompt-Injektion</strong>
+              Gefundene Fakten werden in ein Prompt-Template eingebettet. Das LLM erhält den Befehl: „Antworte nur auf Basis dieses Kontexts." Konfabulation wird verhindert.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     5. FUNKTIONALES RÜCKGRAT – 4×2 GRID
+════════════════════════════════════════════════════════ -->
+<section id="saeulen">
+  <div class="page-wrap">
+    <p class="section-label">Das funktionale Rückgrat</p>
+    <h2 class="section-title">Die 8 Säulen der RAG-Architektur</h2>
+    <p class="section-lead">Um Latenzen von unter 5 Sekunden bei maximaler Präzision zu erreichen, müssen acht Kernkomponenten nahtlos ineinandergreifen.</p>
+
+    <div class="pillars-grid" role="list">
+      <div class="pillar-tile" role="listitem">
+        <p class="pillar-num">Säule 1</p>
+        <p class="pillar-name">Connectors</p>
+        <p class="pillar-desc">Schnittstellen zu SharePoint, SAP oder Ticket-Systemen. Beherrschen inkrementelle Updates – nur geänderte Daten werden neu geladen.</p>
+      </div>
+      <div class="pillar-tile" role="listitem">
+        <p class="pillar-num">Säule 2</p>
+        <p class="pillar-name">Embedding-Service</p>
+        <p class="pillar-desc">Die Übersetzungsinstanz, die Texte in Vektoren verwandelt. Für den DACH-Raum sind sprachadäquate Modelle für deutsche Dokumente essenziell.</p>
+      </div>
+      <div class="pillar-tile" role="listitem">
+        <p class="pillar-num">Säule 3</p>
+        <p class="pillar-name">Vektor-DB</p>
+        <p class="pillar-desc">Zentraler Wissensspeicher. Hält Chunks, Vektoren und Metadaten (Autor, Datum, Abteilung) für den Blitzabruf bereit.</p>
+      </div>
+      <div class="pillar-tile" role="listitem">
+        <p class="pillar-num">Säule 4</p>
+        <p class="pillar-name">Re-Ranker</p>
+        <p class="pillar-desc">Ein Cross-Encoder sortiert Suchergebnisse nach der ersten Suche fein nach Relevanz. Ab 100.000 Dokumenten für Präzision unverzichtbar.</p>
+      </div>
+      <div class="pillar-tile" role="listitem">
+        <p class="pillar-num">Säule 5</p>
+        <p class="pillar-name">Prompt-Engine</p>
+        <p class="pillar-desc">Verwaltet die Befehlssätze für die KI: Rollenzuweisungen, Einschränkungen und Zitationsvorgaben – das Nadelöhr der Antwortqualität.</p>
+      </div>
+      <div class="pillar-tile" role="listitem">
+        <p class="pillar-num">Säule 6</p>
+        <p class="pillar-name">LLM</p>
+        <p class="pillar-desc">Die Recheneinheit für die Texterzeugung. Empfohlen sind Modelle mit einem Kontextfenster von mindestens 64K Tokens.</p>
+      </div>
+      <div class="pillar-tile" role="listitem">
+        <p class="pillar-num">Säule 7</p>
+        <p class="pillar-name">Guardrails</p>
+        <p class="pillar-desc">Prüft auf PII und Themen-Compliance. Zitationsprüfung stellt sicher, dass jede Aussage mit einer Quellenangabe versehen ist.</p>
+      </div>
+      <div class="pillar-tile" role="listitem">
+        <p class="pillar-num">Säule 8</p>
+        <p class="pillar-name">API-Gateway</p>
+        <p class="pillar-desc">Schnittstelle zum Nutzer – meist integriert in MS Teams oder dedizierte Web-Apps. Steuert Auth, Rate-Limiting und Logging.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     6. MARKTANALYSE – TOOL-VERGLEICHSTABELLE
+════════════════════════════════════════════════════════ -->
+<section id="markt">
+  <div class="page-wrap">
+    <p class="section-label">Marktanalyse</p>
+    <h2 class="section-title">Die Tool-Landschaft im Überblick</h2>
+    <p class="section-lead">Die Realisierung einer RAG-Architektur erfordert ein präzises Zusammenspiel aus Orchestrierungs-Frameworks, Vektordatenbanken und Enterprise-Plattformen.</p>
+
+    <div class="table-wrap">
+      <table class="tool-table">
+        <thead>
+          <tr>
+            <th>Lösung</th>
+            <th>Typ</th>
+            <th>Stärken</th>
+            <th>Deployment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tool-name">LangChain / LangGraph</span></td>
+            <td><span class="badge-type">Orchestrierung</span></td>
+            <td>Maximale Flexibilität, riesiges Ökosystem, Agentic RAG mit über 700 Modulen</td>
+            <td><span class="badge-type deploy-cloud">Open Source / Cloud</span></td>
+          </tr>
+          <tr>
+            <td><span class="tool-name">LlamaIndex</span></td>
+            <td><span class="badge-type">Daten-Framework</span></td>
+            <td>Data-First-Ansatz, hervorragende Konnektoren, überlegene Retrieval-Qualität bei komplexen Dokumentstrukturen</td>
+            <td><span class="badge-type deploy-cloud">Open Source / Cloud</span></td>
+          </tr>
+          <tr>
+            <td><span class="tool-name">Azure AI Search</span></td>
+            <td><span class="badge-type">Managed Platform</span></td>
+            <td>Enterprise-Compliance (ISO, DSGVO), native Azure-Integration, Hybrid Search, natives RBAC</td>
+            <td><span class="badge-type deploy-cloud">Cloud (Azure)</span></td>
+          </tr>
+          <tr>
+            <td><span class="tool-name">Elasticsearch</span></td>
+            <td><span class="badge-type">Search Engine</span></td>
+            <td>ELSER-Modell, bewährte Skalierbarkeit, Hybrid Search – RAG ohne Infrastrukturwechsel nachrüstbar</td>
+            <td><span class="badge-type deploy-hybrid">Hybrid / Cloud</span></td>
+          </tr>
+          <tr>
+            <td><span class="tool-name">Qdrant / Pinecone</span></td>
+            <td><span class="badge-type">Vektordatenbank</span></td>
+            <td>Qdrant: High-Performance (Rust), minimale Latenzen. Pinecone: Serverless, kein Ops-Aufwand, einfache Skalierung</td>
+            <td><span class="badge-type deploy-hybrid">On-Prem / Cloud</span></td>
+          </tr>
+          <tr>
+            <td><span class="tool-name">Databricks / SAP</span></td>
+            <td><span class="badge-type">Data Intelligence</span></td>
+            <td>End-to-End Governance auf dem Data Lake; SAP: direkter Zugriff auf S/4HANA-Dokumente mit bestehenden Governance-Strukturen</td>
+            <td><span class="badge-type deploy-cloud">Cloud (Multi-Cloud)</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     7. BEST PRACTICES & FEHLER-VERMEIDUNG
+════════════════════════════════════════════════════════ -->
+<section id="best-practices">
+  <div class="page-wrap">
+    <p class="section-label">Best Practices &amp; Fehler-Vermeidung</p>
+    <h2 class="section-title">Vom Prototyp zur produktiven Exzellenz</h2>
+    <p class="section-lead">Der Unterschied zwischen einem beeindruckenden Prototyp und einem verlässlichen Business-System liegt in der Feinjustierung der Pipeline.</p>
+
+    <div class="bp-grid">
+      <div class="bp-card do">
+        <div class="bp-card-head">✓ So gelingt es</div>
+        <div class="bp-card-body">
+          <div class="bp-item">
+            <span class="bp-item-icon">📐</span>
+            <div>
+              <strong>Strategisches Chunking</strong>
+              Chunks müssen inhaltliche Einheiten bilden (Absätze, FAQ-Einträge). 10–20 % Überlappung verhindert Informationsverlust an Schnittstellen.
+            </div>
+          </div>
+          <div class="bp-item">
+            <span class="bp-item-icon">🔀</span>
+            <div>
+              <strong>Hybrid-Search-Tuning</strong>
+              Semantische Vektorsuche (versteht Konzepte) kombiniert mit klassischer Keyword-Suche (findet exakte Produkt-IDs). Top-k zwischen 5 und 10.
+            </div>
+          </div>
+          <div class="bp-item">
+            <span class="bp-item-icon">🛡️</span>
+            <div>
+              <strong>Wissenslücken-Regel im Prompt</strong>
+              „Wenn die Information nicht im Kontext steht, sag es deutlich." Ohne diese Regel beginnt die KI zu halluzinieren, sobald sie nichts findet.
+            </div>
+          </div>
+          <div class="bp-item">
+            <span class="bp-item-icon">📊</span>
+            <div>
+              <strong>Laufende Evaluierung (RAGAS)</strong>
+              Regelmäßige Messung von Faithfulness und Answer Relevance. User-Ratings direkt als Test-Set nutzen, um die Pipeline nachzujustieren.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bp-card dont">
+        <div class="bp-card-head">✗ Typische Fehler</div>
+        <div class="bp-card-body">
+          <div class="bp-item">
+            <span class="bp-item-icon">⚠️</span>
+            <div>
+              <strong>Blindes Zerschneiden nach Zeichenanzahl</strong>
+              Eine „One-size-fits-all"-Strategie scheitert. Verträge benötigen eine andere Granularität als technische Handbücher.
+            </div>
+          </div>
+          <div class="bp-item">
+            <span class="bp-item-icon">⚠️</span>
+            <div>
+              <strong>Reine Vektorsuche ohne Keyword-Fallback</strong>
+              Semantik allein findet keine exakten Produkt-IDs oder Versionsnummern. Hybridansatz ist Pflicht für Production-Systeme.
+            </div>
+          </div>
+          <div class="bp-item">
+            <span class="bp-item-icon">⚠️</span>
+            <div>
+              <strong>Prompt ohne Einschränkungen</strong>
+              Fehlt die explizite Beschränkung auf den bereitgestellten Kontext, nutzt das LLM sein internes Weltwissen – und halluziniert wieder.
+            </div>
+          </div>
+          <div class="bp-item">
+            <span class="bp-item-icon">⚠️</span>
+            <div>
+              <strong>Fehlende Governance auf Retrieval-Ebene</strong>
+              RBAC muss auf Abruf-Ebene greifen. Metadaten-Filter in der Vektordatenbank sind der einzige sichere Weg, Zugriffsgrenzen durchzusetzen.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     8. USE CASES – 2 KARTEN
+════════════════════════════════════════════════════════ -->
+<section id="use-cases">
+  <div class="page-wrap">
+    <p class="section-label">Use Cases</p>
+    <h2 class="section-title">RAG in der Praxis: Zwei Szenarien</h2>
+    <p class="section-lead">Wo abstrakte Architektur auf konkreten Schmerz trifft – zwei reale Enterprise-Szenarien im Vergleich.</p>
+
+    <div class="uc-grid">
+      <!-- Case A -->
+      <div class="uc-card">
+        <div class="uc-card-header">
+          <span class="uc-badge">Case A · Industrie &amp; Instandhaltung</span>
+          <h3 class="uc-title">Digital Field Service Engineer</h3>
+        </div>
+        <div class="uc-card-body">
+          <div class="uc-row">
+            <p class="uc-row-label pain">Pain Point</p>
+            <p class="uc-row-text">Ein Servicetechniker steht vor einer Industrieanlage mit unbekanntem Fehlercode. Früher: Wälzen tausendseitiger PDF-Handbücher oder Telefonate mit dem Second-Level-Support – Minuten bis Stunden Stillstandzeit.</p>
+          </div>
+          <div class="uc-row">
+            <p class="uc-row-label solution">RAG-Lösung</p>
+            <p class="uc-row-text">Spracheingabe: „Fehlercode E-402 bei Modellreihe X – wie kalibriere ich den Drucksensor?" Das System isoliert die drei relevanten Absätze aus dem Wartungshandbuch 2024 plus eine interne Service-Notiz zum spezifischen Bauteil.</p>
+          </div>
+          <div class="uc-row">
+            <p class="uc-row-label result">Mehrwert</p>
+            <p class="uc-row-text">Minimierung der Stillstandzeiten. Sofortiger Zugriff auf das kollektive Expertenwissen direkt am Point of Need – mit Quellenangabe und Warnhinweis aus der Service-Notiz.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Case B -->
+      <div class="uc-card">
+        <div class="uc-card-header">
+          <span class="uc-badge">Case B · Compliance &amp; Recht</span>
+          <h3 class="uc-title">Smart Legal Assistance</h3>
+        </div>
+        <div class="uc-card-body">
+          <div class="uc-row">
+            <p class="uc-row-label pain">Pain Point</p>
+            <p class="uc-row-text">Hunderte Rahmenverträge müssen auf spezifische Klauseln geprüft werden (Haftungsobergrenzen, Kündigungsfristen bei Force Majeure). Klassische Schlagwortsuche scheitert an unterschiedlichen Formulierungen.</p>
+          </div>
+          <div class="uc-row">
+            <p class="uc-row-label solution">RAG-Lösung</p>
+            <p class="uc-row-text">Abfrage: „Welche unserer EMEA-Lieferantenverträge haben keine Anpassungsklausel für Energiekosten?" RAG findet auch Verträge mit „Preisanpassung", „Indexierung" oder „Teuerungsrate" – und identifiziert jene, wo diese Begriffe fehlen.</p>
+          </div>
+          <div class="uc-row">
+            <p class="uc-row-label result">Mehrwert</p>
+            <p class="uc-row-text">Massive Effizienzsteigerung bei der Risikoanalyse und absolute Transparenz durch direkten Beleg am Originaldokument – inklusive Verlinkung zur entsprechenden Vertragspassage.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     9. CLOSING / CTA
+════════════════════════════════════════════════════════ -->
+<div class="cta-banner" role="complementary" aria-label="Fazit und Handlungsaufforderung">
+  <div class="page-wrap">
+    <p class="cta-label">Fazit</p>
+    <h2 class="cta-headline">KI wird erst haftbar, wenn sie Ihre Daten kennt.</h2>
+    <p class="cta-body">
+      RAG markiert das Ende der Modell-Gläubigkeit. Der entscheidende Wertbeitrag liegt nicht mehr im verwendeten LLM, sondern in der <strong>Gouvernanz Ihrer Datenbasis</strong>. Das Modell wird austauschbar – Ihre Daten werden zum strategischen Wissenskern. <strong>Jede Antwort ist belegbar. Jede Quelle ist nachvollziehbar. Jeder Zugriff ist kontrolliert.</strong> Das ist keine Spielerei mehr – das ist Enterprise-KI, die vor dem Vorstand bestehen kann.
+    </p>
+    <p class="cta-body">
+      <strong>Ihr nächster Schritt:</strong> Prüfen Sie Ihre eigenen Datensilos. Welche Wissensbereiche sind für Ihre Teams täglich kritisch – und aktuell in isolierten Systemen begraben?
+    </p>
+    <a href="index.html" class="cta-action">Zum vollständigen RAG-Fachartikel →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span>Fachartikel · Business Intelligence · April 2026 · Karl Krat</span>
+    <a href="#" aria-label="Zurück zum Seitenanfang">↑ Seitenanfang</a>
+  </div>
+</footer>
+
+</body>
+</html>
