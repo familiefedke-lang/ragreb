@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio – B2B Content &amp; Conversion Copy</title>
+  <meta name="description" content="7 Case Studies aus B2B Content und Conversion Copy: SEO-Artikel, Advertorials, Whitepapers, Landingpages und E-Mail-Sequences.">
+  <meta name="author" content="Karl Krat">
+  <meta name="robots" content="index, follow">
+
+  <style>
+    /* ── Reset ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Tokens ──────────────────────────────────────────── */
+    :root {
+      --bg:          #f7f5f0;
+      --surface:     #ffffff;
+      --text:        #2d2b28;
+      --muted:       #72706c;
+      --heading:     #1a1917;
+      --border:      #dbd8d2;
+      --border-lt:   #eae7e1;
+      --toc-bg:      #efede7;
+      --table-head:  #e8e5de;
+      --link:        #1a4a7a;
+      --accent:      #3d3b38;
+      --max:         740px;
+      --font:        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      --r:           4px;
+    }
+
+    /* ── Base ────────────────────────────────────────────── */
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 17px;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--link); }
+    a:hover { text-decoration: underline; }
+
+    /* ── Layout ──────────────────────────────────────────── */
+    main {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem 5rem;
+    }
+
+    /* ── Page header ─────────────────────────────────────── */
+    .page-header {
+      padding-bottom: 2.25rem;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--muted);
+      margin-bottom: 1.1rem;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--heading);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .page-subtitle {
+      font-size: 1.05rem;
+      color: var(--muted);
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    /* ── Quick-nav TOC ───────────────────────────────────── */
+    .toc-box {
+      background: var(--toc-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .toc-box summary {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--muted);
+      cursor: pointer;
+      user-select: none;
+      list-style: none;
+    }
+    .toc-box summary::-webkit-details-marker { display: none; }
+    .toc-box summary::after { content: "  ▾"; font-size: 0.85em; }
+    .toc-box[open] summary::after { content: "  ▴"; }
+
+    .toc-list {
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    .toc-list li {
+      font-size: 0.84rem;
+      line-height: 1.4;
+      padding: 0.28rem 0;
+      border-bottom: 1px solid var(--border-lt);
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+    }
+    .toc-list li:last-child { border-bottom: none; }
+
+    .toc-num {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--muted);
+      min-width: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .toc-list a {
+      color: var(--heading);
+      text-decoration: none;
+      flex: 1;
+    }
+    .toc-list a:hover { color: var(--link); text-decoration: underline; }
+
+    .toc-type {
+      font-size: 0.75rem;
+      color: var(--muted);
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    /* ── Project card ────────────────────────────────────── */
+    .project {
+      margin-bottom: 4rem;
+      padding-bottom: 4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .project:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .project-header {
+      margin-bottom: 1.25rem;
+    }
+
+    .project-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-num {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--muted);
+      background: var(--table-head);
+      border-radius: 2px;
+      padding: 0.15em 0.5em;
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
+
+    .project-type {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+    }
+
+    .meta-sep {
+      color: var(--border);
+      font-size: 0.85rem;
+    }
+
+    .project-client {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    h2.project-title {
+      font-size: clamp(1.15rem, 3vw, 1.45rem);
+      font-weight: 700;
+      color: var(--heading);
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    /* ── Outcome callout ─────────────────────────────────── */
+    .outcome-box {
+      background: var(--toc-bg);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--r) var(--r) 0;
+      padding: 0.9rem 1.25rem;
+      margin: 1.25rem 0 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .outcome-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    /* ── Proof points toggle ─────────────────────────────── */
+    .proof-toggle {
+      border: 1px solid var(--border-lt);
+      border-radius: var(--r);
+      margin: 1.25rem 0;
+      overflow: hidden;
+    }
+
+    .proof-toggle summary {
+      padding: 0.75rem 1.1rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+      cursor: pointer;
+      user-select: none;
+      list-style: none;
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .proof-toggle summary::-webkit-details-marker { display: none; }
+    .proof-toggle[open] summary { border-bottom: 1px solid var(--border-lt); }
+
+    .proof-toggle summary .toggle-icon {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-left: auto;
+    }
+    .proof-toggle[open] summary .toggle-icon { transform: rotate(180deg); }
+
+    .proof-body {
+      padding: 1rem 1.25rem 1.1rem;
+      background: var(--surface);
+    }
+
+    .proof-body ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .proof-body li {
+      padding: 0.45rem 0 0.45rem 1.3rem;
+      border-bottom: 1px solid var(--border-lt);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      position: relative;
+    }
+    .proof-body li:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .proof-body li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--muted);
+      font-size: 0.75rem;
+      top: 0.55rem;
+    }
+
+    /* ── Quote blocks ────────────────────────────────────── */
+    .quotes {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .quote-block {
+      padding: 0.85rem 1.1rem;
+      border-radius: var(--r);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .quote-block.strategy {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+    }
+
+    .quote-block.copy {
+      background: var(--toc-bg);
+      border: 1px solid var(--border-lt);
+    }
+
+    .quote-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .quote-text {
+      font-style: italic;
+      color: var(--text);
+    }
+
+    .quote-context {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      font-style: normal;
+    }
+
+    /* ── Quote section heading ───────────────────────────── */
+    .quotes-heading {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    .quotes-heading:first-child { margin-top: 0; }
+
+    /* ── Footer ──────────────────────────────────────────── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 3rem 1.5rem 2.5rem;
+    }
+
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .fnav-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .fnav-list {
+      list-style: none;
+      columns: 2;
+      column-gap: 2rem;
+      margin-bottom: 2.5rem;
+    }
+    @media (max-width: 480px) { .fnav-list { columns: 1; } }
+
+    .fnav-list li {
+      break-inside: avoid;
+      padding: 0.2rem 0;
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+
+    .fnav-list a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .fnav-list a:hover { color: var(--link); text-decoration: underline; }
+
+    .footer-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-lt);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .footer-top a {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .footer-top a:hover { color: var(--link); }
+
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 540px) {
+      body { font-size: 16px; }
+      main { padding: 2.25rem 1rem 3.5rem; }
+      .toc-type { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<main>
+  <header class="page-header" id="top">
+    <p class="page-tag">Portfolio · B2B Content &amp; Conversion Copy · 7 Projekte</p>
+    <h1>Case Studies</h1>
+    <p class="page-subtitle">B2B-Content und Conversion Copy – von SEO-Artikeln und Whitepapers über Advertorials bis zu Landingpages und E-Mail-Sequences.</p>
+  </header>
+
+  <!-- Quick-nav TOC -->
+  <details class="toc-box" open>
+    <summary>Alle Projekte</summary>
+    <ul class="toc-list">
+      <li>
+        <span class="toc-num">01</span>
+        <a href="#performance-design">Performance Design: Wie datengestützte Gestaltung die Konversionsrate steigert</a>
+        <span class="toc-type">SEO-Artikel</span>
+      </li>
+      <li>
+        <span class="toc-num">02</span>
+        <a href="#ingo365">Business Software für Ingenieure &amp; Architekten: 8 Lösungen im Vergleich</a>
+        <span class="toc-type">SEO-Vergleichsartikel</span>
+      </li>
+      <li>
+        <span class="toc-num">03</span>
+        <a href="#coinpanion">Coinpanion: Wie smart sind die Portfolios des Krypto-Startups wirklich?</a>
+        <span class="toc-type">Advertorial</span>
+      </li>
+      <li>
+        <span class="toc-num">04</span>
+        <a href="#handwerk-consulting">Handwerk-Consulting: Planbar neue Aufträge und qualifizierte Bewerber gewinnen</a>
+        <span class="toc-type">Landingpage</span>
+      </li>
+      <li>
+        <span class="toc-num">05</span>
+        <a href="#cloud-navigation">Cloud-Navigation 2023: Die 5 größten Herausforderungen für eine moderne Infrastruktur</a>
+        <span class="toc-type">B2B Whitepaper</span>
+      </li>
+      <li>
+        <span class="toc-num">06</span>
+        <a href="#liquiditaet">Nachhaltiges Wachstum durch planbare Liquidität sichern</a>
+        <span class="toc-type">Landingpage</span>
+      </li>
+      <li>
+        <span class="toc-num">07</span>
+        <a href="#email-nurturing">E-Mail-Nurturing-Serie: Fortbildung Lerntherapie</a>
+        <span class="toc-type">E-Mail-Sequence</span>
+      </li>
+    </ul>
+  </details>
+
+  <!-- ── 01 ─────────────────────────────────────────────── -->
+  <section class="project" id="performance-design">
+    <div class="project-header">
+      <div class="project-meta">
+        <span class="project-num">01</span>
+        <span class="project-type">SEO-Artikel (Langform)</span>
+        <span class="meta-sep">·</span>
+        <span class="project-client">Marketing-/Designagentur · Blogartikel (~3.000 Worte)</span>
+      </div>
+      <h2 class="project-title">Performance Design: Wie datengestützte Gestaltung die Konversionsrate steigert</h2>
+    </div>
+
+    <div class="outcome-box">
+      <span class="outcome-label">Outcome</span>
+      Konzipiert, um B2B-Vermarkter zu qualifizieren und Inbound-Leads zu generieren, indem Expertenwissen im performanceorientierten Design-Denken demonstriert wird.
+    </div>
+
+    <details class="proof-toggle">
+      <summary>
+        Proof Points (5)
+        <span class="toggle-icon">▾</span>
+      </summary>
+      <div class="proof-body">
+        <ul>
+          <li>Strukturierte einen umfassenden Bildungsartikel rund um die drei Säulen des Performance Designs – visuelles Storytelling, nutzerzentrierte Benutzerführung und plattformspezifische kulturelle Grammatik –, um Lesern ein vollständiges mentales Modell statt isolierter Tipps zu geben.</li>
+          <li>Behandelte spezifische Schmerzpunkte mit datengestütztem Kontext (schrumpfende Aufmerksamkeitsspannen, steigende TKP auf Social Platforms, Personalisierungserwartungen), um den Business Case aufzubauen, bevor die Methodik eingeführt wurde.</li>
+          <li>Lieferte einen klaren 5-Schritte-Aktionsrahmen (Ziele definieren, Nutzer kennenlernen, gestalten, testen, implementieren), damit der Artikel sowohl als Thought Leadership als auch als praktisches Playbook fungiert.</li>
+          <li>Verknüpfte reale Beispiele (Amazons Empfehlungs-UX, Social-Feed-Verhalten) mit abstrakten Konzepten, um sie in erkennbaren Szenarien zu verankern.</li>
+          <li>Platzierte den CTA erst nach einem vollständigen Wrap-up – Glaubwürdigkeit wird durch den edukativen Content aufgebaut, bevor das Gespräch angefragt wird.</li>
+        </ul>
+      </div>
+    </details>
+
+    <div class="quotes">
+      <p class="quotes-heading">Strategie</p>
+
+      <div class="quote-block strategy">
+        <span class="quote-label">Strategie-Zitat</span>
+        <span class="quote-text">„Intuition ist fast immer der schlechtere Ratgeber für Design-Entscheidungen – denn in den meisten Fällen gehörst du nicht zu deiner eigenen Zielgruppe."</span>
+        <span class="quote-context">Über den Umgang mit Annahmen vs. Daten</span>
+      </div>
+
+      <div class="quote-block strategy">
+        <span class="quote-label">Strategie-Zitat</span>
+        <span class="quote-text">„Die naheliegendste Variante ist nicht immer die performanteste!"</span>
+        <span class="quote-context">Über die A/B-Test-Kultur</span>
+      </div>
+
+      <p class="quotes-heading">Copy</p>
+
+      <div class="quote-block copy">
+        <span class="quote-label">Copy-Zitat · Eröffnungshook</span>
+        <span class="quote-text">„Du hast nur wenige Sekunden, um einen Nutzer auf Dich aufmerksam zu machen und ihn von Dir zu überzeugen. Landingpages und Werbeanzeigen müssen Deine Nutzer schnellstmöglich zum Ziel bringen."</span>
+      </div>
+
+      <div class="quote-block copy">
+        <span class="quote-label">Copy-Zitat · Kern-Value-Proposition</span>
+        <span class="quote-text">„Performance Design erweitert den datengetriebenen Ansatz des Marketings auf die visuelle Gestaltung von Werbeanzeigen und Kampagnenelementen."</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 02 ─────────────────────────────────────────────── -->
+  <section class="project" id="ingo365">
+    <div class="project-header">
+      <div class="project-meta">
+        <span class="project-num">02</span>
+        <span class="project-type">SEO-Vergleichsartikel</span>
+        <span class="meta-sep">·</span>
+        <span class="project-client">ingo365 (SaaS) · Blogartikel mit Feature-Matrix</span>
+      </div>
+      <h2 class="project-title">Business Software für Ingenieure &amp; Architekten: 8 Lösungen im Vergleich</h2>
+    </div>
+
+    <div class="outcome-box">
+      <span class="outcome-label">Outcome</span>
+      Konzipiert, um ingo365 als überlegene All-in-One-Lösung für Planungsbüros zu positionieren und Lead-Generierung über organische Suche zu unterstützen.
+    </div>
+
+    <details class="proof-toggle">
+      <summary>
+        Proof Points (5)
+        <span class="toggle-icon">▾</span>
+      </summary>
+      <div class="proof-body">
+        <ul>
+          <li>Erstellte einen umfassenden 8-Produkte-Vergleich mit Feature-Matrix (Projektmanagement, FiBu, HOAI, Cloud, Preis) – Ingenieuren die Research-Tiefe geboten, die sie vor einer Kaufentscheidung brauchen.</li>
+          <li>Erklärte das PeP-7-Zertifizierungs-Framework (7 Kennzahlen inkl. Umsatzrendite, Umsatz pro Mitarbeiter, Gemeinkostenfaktor), um Domain-Expertise zu etablieren und Lesern einen Entscheidungsrahmen zu geben.</li>
+          <li>Strukturierte die ingo365-Positionierung um 8 konkrete Vorteile (Best-of-Suite, einfache Bedienung über Microsoft-Umgebung, einheitliches Berechtigungsmanagement, DSGVO-Konformität, sichere Cloud), jeweils gekoppelt an einen spezifischen Branchenschmerzpunkt.</li>
+          <li>Sprach das #1-Einführungshindernis direkt an: Zitierte die Konjunkturumfrage 2022, die Fachkräftemangel als größtes Entwicklungshemmnis identifiziert, und positionierte die bekannte Microsoft-Oberfläche als Gegenmittel.</li>
+          <li>Öffnete mit einem gegenläufigen Hook (die PwC-Erkenntnis, dass der Corona-Digitalisierungsschub in der Baubranche weitgehend ausblieb), um Relevanz und Dringlichkeit zu erzeugen.</li>
+        </ul>
+      </div>
+    </details>
+
+    <div class="quotes">
+      <p class="quotes-heading">Strategie</p>
+
+      <div class="quote-block strategy">
+        <span class="quote-label">Strategie-Zitat</span>
+        <span class="quote-text">„Fachkräftemangel ist laut Konjunkturumfrage 2022 das größte Entwicklungshemmnis – ingo365 läuft in einer bekannten Microsoft-Umgebung, sodass Nutzer von ihren Erfahrungen zehren können."</span>
+        <span class="quote-context">Über Glaubwürdigkeitsaufbau vor dem CTA</span>
+      </div>
+
+      <p class="quotes-heading">Copy</p>
+
+      <div class="quote-block copy">
+        <span class="quote-label">Copy-Zitat · Kern-Produktpositionierung</span>
+        <span class="quote-text">„ingo365 vereint alle Funktionen, die für die Steuerung eines modernen Planungsbüros benötigt werden, in einer einzigen Software – vom Projektmanagement über die Finanzbuchhaltung bis zum Dokumentenmanagement."</span>
+      </div>
+
+      <div class="quote-block copy">
+        <span class="quote-label">Copy-Zitat · Eröffnungshook</span>
+        <span class="quote-text">„Der Digitalisierungsschub in der Baubranche durch Corona ist weitgehend ausgeblieben."</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 03 ─────────────────────────────────────────────── -->
+  <section class="project" id="coinpanion">
+    <div class="project-header">
+      <div class="project-meta">
+        <span class="project-num">03</span>
+        <span class="project-type">Advertorial / Native Advertising</span>
+        <span class="meta-sep">·</span>
+        <span class="project-client">Coinpanion (Fintech-Startup) · gesponserter redaktioneller Artikel</span>
+      </div>
+      <h2 class="project-title">Coinpanion: Wie smart sind die Portfolios des Krypto-Startups wirklich?</h2>
+    </div>
+
+    <div class="outcome-box">
+      <span class="outcome-label">Outcome</span>
+      Konzipiert, um Glaubwürdigkeit bei Coinpanion unter deutschen Privatanlegern aufzubauen und Kundenakquise durch Transparenz zu unterstützen.
+    </div>
+
+    <details class="proof-toggle">
+      <summary>
+        Proof Points (4)
+        <span class="toggle-icon">▾</span>
+      </summary>
+      <div class="proof-body">
+        <ul>
+          <li>Balancierte kritische Evaluation mit echter Empfehlung: Öffnete mit dem Traktion des Startups (10.000+ Kunden, namhafte Investoren) und erklärte die Methodik (Scoring-Modell, Risikoparität, wöchentliche Rebalancierung) in zugänglicher, nicht-technischer Sprache.</li>
+          <li>Präsentierte Performancedaten für alle 5 Portfolios mit konkreten Kennzahlen (Max Drawdowns, jährliche Renditen von −2,92 % bis +168,51 %) – inklusive ehrlicher Offenlegung von Schwächeprodukten, was Vertrauen durch Transparenz statt Cherry-Picking erzeugt.</li>
+          <li>Strukturierte jedes Portfolio um ein Risikoprofil (vorsichtig, ausgewogen, Abenteurer, Metaverse, DeFi), damit Leser sich selbst einordnen und sich im Produkt wiedererkennen können.</li>
+          <li>Schloss mit einem kraftvollen Vergleich: „Mit den smarten Portfolios wird das Investieren in Kryptowährungen so simpel wie das Anlegen eines ETF-Sparplans" – eine komplexe, einschüchternde Anlageklasse in eine alltägliche Handlung übersetzt.</li>
+        </ul>
+      </div>
+    </details>
+
+    <div class="quotes">
+      <p class="quotes-heading">Strategie</p>
+
+      <div class="quote-block strategy">
+        <span class="quote-label">Strategie-Zitat</span>
+        <span class="quote-text">„Während vergleichbare Anbieter bei der Beschreibung ihrer Methodik allgemein bleiben, ist Coinpanion weitestgehend transparent – das gibt dem Advertorial Glaubwürdigkeit statt als Verkaufsblatt zu wirken."</span>
+        <span class="quote-context">Über die Balance zwischen Advertorial-Tonalität und Glaubwürdigkeit</span>
+      </div>
+
+      <p class="quotes-heading">Copy</p>
+
+      <div class="quote-block copy">
+        <span class="quote-label">Copy-Zitat · Schluss-CTA / Reframing</span>
+        <span class="quote-text">„Mit den smarten Portfolios wird das Investieren in Kryptowährungen so simpel wie das Anlegen eines ETF-Sparplans."</span>
+      </div>
+
+      <div class="quote-block copy">
+        <span class="quote-label">Copy-Zitat · Experten-Positionierung</span>
+        <span class="quote-text">„Coinpanion bündelt professionelle Krypto-Expertise und ein an tausenden Datenpunkten validierten Bewertungsmodell."</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 04 ─────────────────────────────────────────────── -->
+  <section class="project" id="handwerk-consulting">
+    <div class="project-header">
+      <div class="project-meta">
+        <span class="project-num">04</span>
+        <span class="project-type">Lead-Generation-Landingpage</span>
+        <span class="meta-sep">·</span>
+        <span class="project-client">Handwerks-Consultingunternehmen · Landingpage mit doppeltem Value Proposition</span>
+      </div>
+      <h2 class="project-title">Handwerk-Consulting: Planbar neue Aufträge und qualifizierte Bewerber gewinnen</h2>
+    </div>
+
+    <div class="outcome-box">
+      <span class="outcome-label">Outcome</span>
+      Konzipiert, um qualifizierte Leads von Handwerksbetriebsinhabern zu generieren, indem ein duales Versprechen angeboten wird: exklusivere Aufträge und schnellere Mitarbeitergewinnung.
+    </div>
+
+    <details class="proof-toggle">
+      <summary>
+        Proof Points (5)
+        <span class="toggle-icon">▾</span>
+      </summary>
+      <div class="proof-body">
+        <ul>
+          <li>Positionierte die Beratung als „Aus dem Handwerk, für das Handwerk" – der Gründer eignete sich Marketingwissen selbst an und wandte es auf seinen eigenen Handwerksbetrieb an, generiert seit 2011 siebenstellige Umsätze, statt als generische Agentur aufzutreten.</li>
+          <li>Strukturierte das Angebot um zwei parallele Service-Säulen (Kundengewinnung + Fachkräfterekrutierung) mit klaren Outcomes für jede Säule – genau so, wie Handwerksbetriebsinhaber über Wachstum denken.</li>
+          <li>Nahm ein konkretes Versprechen auf: „Wir finden in 30 Tagen mindestens einen qualifizierten Bewerber, den du sofort einstellen kannst" – wahrgenommene Risiken abgebaut und den nächsten Schritt sicher gemacht.</li>
+          <li>Setzte klare Qualifikationskriterien (8–10+ Mitarbeiter, Wachstumsbereitschaft, Bereitschaft, ein nachhaltiges Modell aufzubauen), um Leads vorzufiltern und die richtige Zielgruppe anzuziehen.</li>
+          <li>Nutzte die Aspirationspositionierung „das Apple des Handwerks in deiner Region", um Premium-Positionierung zu signalisieren, ohne wie jede andere Agentur zu klingen.</li>
+        </ul>
+      </div>
+    </details>
+
+    <div class="quotes">
+      <p class="quotes-heading">Strategie</p>
+
+      <div class="quote-block strategy">
+        <span class="quote-label">Strategie-Zitat</span>
+        <span class="quote-text">„Wir sind Kollegen, keine Dienstleister. Deshalb verstehen wir deine Herausforderungen und wissen genau, worauf es beim Aufbau eines Handwerksbetriebs ankommt."</span>
+        <span class="quote-context">Über Insider-Positionierung vs. Agentur-Positionierung</span>
+      </div>
+
+      <p class="quotes-heading">Copy</p>
+
+      <div class="quote-block copy">
+        <span class="quote-label">Copy-Zitat · Social Proof</span>
+        <span class="quote-text">„Seit über 12 Jahren generieren wir Aufträge im Millionenbereich und gewinnen hunderte qualifizierte Fachkräfte für Handwerksbetriebe in ganz Deutschland."</span>
+      </div>
+
+      <div class="quote-block copy">
+        <span class="quote-label">Copy-Zitat · Risikoumkehrende Garantie</span>
+        <span class="quote-text">„Unser Versprechen: Wir finden in 30 Tagen mindestens einen qualifizierten Bewerber, den du sofort einstellen kannst!"</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 05 ─────────────────────────────────────────────── */
+  <section class="project" id="cloud-navigation">
+    <div class="project-header">
+      <div class="project-meta">
+        <span class="project-num">05</span>
+        <span class="project-type">B2B Whitepaper / Lead Magnet</span>
+        <span class="meta-sep">·</span>
+        <span class="project-client">IT Managed Services · Whitepaper (~3.000 Worte)</span>
+      </div>
+      <h2 class="project-title">Cloud-Navigation 2023: Die 5 größten Herausforderungen für eine moderne Infrastruktur</h2>
+    </div>
+
+    <div class="outcome-box">
+      <span class="outcome-label">Outcome</span>
+      Konzipiert, um Autorität im Hybrid-Cloud-Management zu etablieren und Enterprise-Leads durch Demonstration von tiefem Domain-Expertise über fünf kritische IT-Herausforderungen zu generieren.
+    </div>
+
+    <details class="proof-toggle">
+      <summary>
+        Proof Points (5)
+        <span class="toggle-icon">▾</span>
+      </summary>
+      <div class="proof-body">
+        <ul>
+          <li>Strukturierte das Whitepaper um 5 klar nummerierte Herausforderungen (Kostenoptimierung, Sicherheit, Fachkräftemangel, Governance, Integrationskomplexität), jeweils im Problem-Lösung-Format – skalierbar für zeitarme IT-Entscheider.</li>
+          <li>Untermauerte jede Herausforderung mit aktuellen Daten: 76 % der Unternehmen nennen Kostenoptimierung als größte Cloud-Herausforderung (aufgestiegen von 43 % im Jahr 2016); 80 % haben Fachkräftemangel; 2023 wurde praktisch jedes Unternehmen Opfer eines Cyberangriffs.</li>
+          <li>Erklärte aufkommende Frameworks (FinOps, Zero Trust) in Business-Sprache statt Fachjargon – „identitätszentrierte IT-Sicherheit" in konkretes strategisches Handlungswissen übersetzt.</li>
+          <li>Positionierte den Kunden als Begleiter statt Anbieter: Die Lösungen betonen Prozess- und Kulturaufbau, keinen Produktvertrieb, um Vertrauen für die Beratungsbeziehung aufzubauen.</li>
+          <li>Sprach das Managed-Services-Stigma direkt an: Erkannte, dass Unternehmen Abhängigkeit und wiederkehrende Kosten fürchten, und reframete MSPs als Werkzeug zur Verbesserung von Mitarbeiterbindung und Arbeitgeberattraktivität.</li>
+        </ul>
+      </div>
+    </details>
+
+    <div class="quotes">
+      <p class="quotes-heading">Strategie</p>
+
+      <div class="quote-block strategy">
+        <span class="quote-label">Strategie-Zitat</span>
+        <span class="quote-text">„Orchestrierung und Automatisierung in der Hybrid-Cloud sind selten ein Problem fehlender technischer Lösungen. Unternehmen benötigen Ressourcen und Expertise, um diese Tools effektiv zu nutzen."</span>
+        <span class="quote-context">Über die Positionierung des Partners als Enabler, nicht als Produktverkäufer</span>
+      </div>
+
+      <p class="quotes-heading">Copy</p>
+
+      <div class="quote-block copy">
+        <span class="quote-label">Copy-Zitat · Dringlichkeitsanker</span>
+        <span class="quote-text">„2023 wurde praktisch jedes Unternehmen Opfer mindestens eines Cyberangriffs."</span>
+      </div>
+
+      <div class="quote-block copy">
+        <span class="quote-label">Copy-Zitat · Marktkontext</span>
+        <span class="quote-text">„Die Hybrid-Cloud ist mittlerweile die verbreitetste Form der IT-Infrastruktur, weil sie Private Cloud, Public Cloud und On-Premise-Systeme verbindet."</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 06 ─────────────────────────────────────────────── -->
+  <section class="project" id="liquiditaet">
+    <div class="project-header">
+      <div class="project-meta">
+        <span class="project-num">06</span>
+        <span class="project-type">Lead-Generation-Landingpage</span>
+        <span class="meta-sep">·</span>
+        <span class="project-client">Philipp Helber (Unternehmensberatung) · Landingpage mit 4 Service-Säulen</span>
+      </div>
+      <h2 class="project-title">Nachhaltiges Wachstum durch planbare Liquidität sichern</h2>
+    </div>
+
+    <div class="outcome-box">
+      <span class="outcome-label">Outcome</span>
+      Konzipiert, um KMU-Inhaber in Beratungsgespräche zu konvertieren, indem Liquiditätsmanagement von einem Buchhaltungsproblem in einen Wachstums-Enabler umgedeutet wird.
+    </div>
+
+    <details class="proof-toggle">
+      <summary>
+        Proof Points (5)
+        <span class="toggle-icon">▾</span>
+      </summary>
+      <div class="proof-body">
+        <ul>
+          <li>Strukturierte das Angebot um 4 klar beschriftete Service-Säulen (Factoring, Mietkauf &amp; Leasing, Finanzierung, Forderungsmanagement), von denen jede einen spezifischen finanziellen Schmerzpunkt mit einem konkreten Outcome adressiert.</li>
+          <li>Öffnete mit starken Schmerzpunkt-Daten: Deutsche Unternehmen warten im Durchschnitt über 30 Tage nach Rechnungsstellung auf Zahlungseingang – eine Liquiditätslücke, die Investitionen blockiert und Kosten erhöht.</li>
+          <li>Übersetzte technische Finanzprodukte in alltägliche Business-Sprache: Factoring wird zu „Liquidität auf Knopfdruck"; Leasing wird zu „Steuerlast reduzieren und gleichzeitig investieren".</li>
+          <li>Positionierte den Berater als zentralen Ansprechpartner statt Produktverkäufer: „Konzentriere dich auf dein Kerngeschäft, während ich deinen finanziellen Handlungsspielraum systematisch erweitere."</li>
+          <li>Sprach die Investitionsbarriere direkt an: In 3 von 4 Handwerksbetrieben ist die Höhe der Kosten das größte Hemmnis für notwendige Investitionen – dann die Lösung als schnell, digital und unkompliziert präsentiert.</li>
+        </ul>
+      </div>
+    </details>
+
+    <div class="quotes">
+      <p class="quotes-heading">Strategie</p>
+
+      <div class="quote-block strategy">
+        <span class="quote-label">Strategie-Zitat</span>
+        <span class="quote-text">„Vier Service-Säulen um spezifische Schmerzpunkte strukturiert, jeder mit einem konkreten Outcome – der Prospect sieht sofort, welches Problem gelöst wird."</span>
+        <span class="quote-context">Über skalierbare Wertarchitektur</span>
+      </div>
+
+      <p class="quotes-heading">Copy</p>
+
+      <div class="quote-block copy">
+        <span class="quote-label">Copy-Zitat · Eröffnungsthese</span>
+        <span class="quote-text">„Liquidität ist das Fundament eines gesunden Geschäfts und schafft die Voraussetzungen für langfristiges Wachstum."</span>
+      </div>
+
+      <div class="quote-block copy">
+        <span class="quote-label">Copy-Zitat · CTA / Beraterpositionierung</span>
+        <span class="quote-text">„Konzentrieren Sie sich auf Ihr Kerngeschäft, während ich Ihren finanziellen Handlungsspielraum systematisch erweitere und wir gemeinsam die Weichen für nachhaltiges Wachstum stellen!"</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 07 ─────────────────────────────────────────────── -->
+  <section class="project" id="email-nurturing">
+    <div class="project-header">
+      <div class="project-meta">
+        <span class="project-num">07</span>
+        <span class="project-type">4-E-Mail-Nurturing-Sequence</span>
+        <span class="meta-sep">·</span>
+        <span class="project-client">Online-Training-Anbieter · E-Mail-Serie mit progressiver Überzeugung</span>
+      </div>
+      <h2 class="project-title">E-Mail-Nurturing-Serie: Fortbildung Lerntherapie</h2>
+    </div>
+
+    <div class="outcome-box">
+      <span class="outcome-label">Outcome</span>
+      Konzipiert, um engagierte Pädagoginnen in Kursteilnehmerinnen umzuwandeln – über eine emotional getriebene 4-Schritte-E-Mail-Sequence, die Vertrauen aufbaut, bevor sie um Commitment bittet.
+    </div>
+
+    <details class="proof-toggle">
+      <summary>
+        Proof Points (5)
+        <span class="toggle-icon">▾</span>
+      </summary>
+      <div class="proof-body">
+        <ul>
+          <li>Architektierte eine 4-E-Mail-progressive Struktur: E-Mail 1 (Empathie + Problembewusstsein), E-Mail 2 (Social Proof + Benefits), E-Mail 3 (Methodik + Wie es funktioniert), E-Mail 4 (Identitätswandel + Dringlichkeit) – jede E-Mail baut auf der vorherigen auf, ohne zu wiederholen.</li>
+          <li>Öffnete mit einem emotional aufgeladenen Hook: „Der pädagogische Alltag ist eine emotionale Achterbahnfahrt. Du siehst Kinder, die sich abmühen – und es zerreißt dir das Herz" – trifft die Leserin dort, wo sie steht, bevor die Lösung eingeführt wird.</li>
+          <li>Verwob echte Teilnehmer-Testimonials (Mareike, 38; Ellen, 42; Susanne, 54) mit Altersangaben und konkreten Outcomes – der Social Proof wirkt authentisch und relatable statt generisch.</li>
+          <li>Bot 5 alternative Betreffzeilen pro E-Mail, um A/B-Testing zu ermöglichen und strategisches Denken über Öffnungsraten von Anfang an zu zeigen.</li>
+          <li>Nutzte Aspirations-Identitätsrahmung durchgehend: nicht „mach diesen Kurs", sondern „Werde Diagnose-Expertin, Motivationskünstlerin, Lernumgebungsdesignerin" – das zukünftige Ich wird verkauft, nicht der Lehrplan.</li>
+        </ul>
+      </div>
+    </details>
+
+    <div class="quotes">
+      <p class="quotes-heading">Strategie</p>
+
+      <div class="quote-block strategy">
+        <span class="quote-label">Strategie-Zitat</span>
+        <span class="quote-text">„Die Sequence als progressive Überzeugungs-Architektur konzipiert: zuerst Empathie, dann Beweise, dann Methodik, dann Identitätswandel – Vertrauen wird gestapelt, bevor gefragt wird."</span>
+        <span class="quote-context">Über E-Mail-Sequence-Architektur</span>
+      </div>
+
+      <div class="quote-block strategy">
+        <span class="quote-label">Strategie-Zitat</span>
+        <span class="quote-text">„Wir sehen unsere Aufgabe nicht in der reinen Wissensvermittlung, sondern in der Gestaltung von Lernumgebungen, in denen Kinder an Aufgaben und an sich selbst wachsen können."</span>
+        <span class="quote-context">Über das Schreiben für mehrere Stakeholder (die eigenen Werte der Pädagogin)</span>
+      </div>
+
+      <p class="quotes-heading">Copy</p>
+
+      <div class="quote-block copy">
+        <span class="quote-label">Copy-Zitat · E-Mail 1 Eröffnung</span>
+        <span class="quote-text">„Der pädagogische Alltag ist eine emotionale Achterbahnfahrt. Du siehst Kinder, die sich mit Lernschwierigkeiten ringen und sehnsüchtig nach Hilfe suchen."</span>
+      </div>
+
+      <div class="quote-block copy">
+        <span class="quote-label">Copy-Zitat · E-Mail 4 Identitätsrahmung</span>
+        <span class="quote-text">„Deine Förderpläne sind maßgeschneidert – wie ein perfekt sitzendes Puzzle. Du siehst, wie ihre Augen leuchten, wenn sie Fortschritte machen."</span>
+      </div>
+
+      <div class="quote-block copy">
+        <span class="quote-label">Copy-Zitat · Testimonial (Susanne, 54)</span>
+        <span class="quote-text">„Die beste Entscheidung, die ich treffen konnte."</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="page-footer">
+  <div class="footer-inner">
+    <nav aria-label="Portfolio-Navigation">
+      <p class="fnav-label">Projekte</p>
+      <ul class="fnav-list">
+        <li><a href="#performance-design">01 · Performance Design</a></li>
+        <li><a href="#ingo365">02 · Business Software Vergleich</a></li>
+        <li><a href="#coinpanion">03 · Coinpanion Advertorial</a></li>
+        <li><a href="#handwerk-consulting">04 · Handwerk-Consulting</a></li>
+        <li><a href="#cloud-navigation">05 · Cloud-Navigation Whitepaper</a></li>
+        <li><a href="#liquiditaet">06 · Liquidität &amp; Wachstum</a></li>
+        <li><a href="#email-nurturing">07 · E-Mail-Nurturing-Serie</a></li>
+      </ul>
+    </nav>
+    <div class="footer-meta">
+      <span>Portfolio · B2B Content &amp; Conversion Copy · 7 Projekte</span>
+      <span class="footer-top"><a href="#top">↑ Seitenanfang</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
