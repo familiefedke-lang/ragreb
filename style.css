@@ -1,0 +1,478 @@
+/* ── Reset ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Tokens ──────────────────────────────────────────── */
+:root {
+  --bg:          #f7f5f0;
+  --surface:     #ffffff;
+  --text:        #2d2b28;
+  --muted:       #72706c;
+  --heading:     #1a1917;
+  --border:      #dbd8d2;
+  --border-lt:   #eae7e1;
+  --toc-bg:      #efede7;
+  --table-head:  #e8e5de;
+  --code-bg:     #edebe5;
+  --link:        #1a4a7a;
+  --accent:      #3d3b38;
+  --max:         740px;
+  --font:        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --r:           4px;
+}
+
+/* ── Base ────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--link); }
+a:hover { text-decoration: underline; }
+
+/* ── Layout ──────────────────────────────────────────── */
+main {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 5rem;
+}
+
+/* ── Loading ─────────────────────────────────────────── */
+#loading {
+  padding: 2rem 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ── Article Header ──────────────────────────────────── */
+.art-header {
+  padding-bottom: 2.25rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.art-tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+  margin-bottom: 1.1rem;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--heading);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.art-subtitle {
+  font-size: 1.05rem;
+  color: var(--muted);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* ── TOC box ─────────────────────────────────────────── */
+.toc-box {
+  background: var(--toc-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.toc-box summary {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+.toc-box summary::-webkit-details-marker { display: none; }
+.toc-box summary::after { content: "  ▾"; font-size: 0.85em; }
+.toc-box[open] summary::after { content: "  ▴"; }
+
+.toc-list {
+  list-style: none;
+  margin-top: 1rem;
+  columns: 2;
+  column-gap: 2rem;
+}
+@media (max-width: 560px) { .toc-list { columns: 1; } }
+
+.toc-list li {
+  font-size: 0.84rem;
+  line-height: 1.4;
+  padding: 0.22rem 0;
+  break-inside: avoid;
+}
+.toc-list li.toc-l3 {
+  padding-left: 1rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.toc-list a {
+  color: inherit;
+  text-decoration: none;
+}
+.toc-list a:hover { color: var(--link); text-decoration: underline; }
+
+/* ── Article body ────────────────────────────────────── */
+.art-body h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--heading);
+  line-height: 1.25;
+  margin: 3rem 0 0.9rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-lt);
+}
+.art-body h2:first-child {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.art-body h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--heading);
+  margin: 2rem 0 0.6rem;
+  line-height: 1.35;
+}
+
+.art-body h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin: 1.5rem 0 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Text ────────────────────────────────────────────── */
+.art-body p {
+  margin-bottom: 1.2rem;
+}
+.art-body p:last-child { margin-bottom: 0; }
+
+.art-body strong { font-weight: 700; color: var(--heading); }
+
+.art-body em { font-style: italic; color: var(--muted); }
+
+/* ── Lists ───────────────────────────────────────────── */
+.art-body ul,
+.art-body ol {
+  padding-left: 1.4rem;
+  margin: 0.75rem 0 1.25rem;
+}
+.art-body li { margin: 0.35rem 0; }
+.art-body li p { margin: 0; }
+
+/* ── Tables ──────────────────────────────────────────── */
+.art-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 1.5rem 0 2rem;
+}
+.art-body th {
+  background: var(--table-head);
+  color: var(--heading);
+  font-weight: 700;
+  text-align: left;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+.art-body td {
+  padding: 0.5rem 0.9rem;
+  border-bottom: 1px solid var(--border-lt);
+  vertical-align: top;
+}
+.art-body tr:last-child td { border-bottom: none; }
+.art-body tr:nth-child(even) td { background: rgba(0,0,0,.025); }
+
+@media (max-width: 560px) {
+  .art-body table { font-size: 0.8rem; }
+  .art-body th, .art-body td { padding: 0.4rem 0.6rem; }
+}
+
+/* ── Blockquote / callout box ────────────────────────── */
+.art-body blockquote {
+  background: var(--toc-bg);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--r) var(--r) 0;
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+}
+.art-body blockquote p { margin: 0; }
+
+/* ── Code ────────────────────────────────────────────── */
+.art-body code {
+  font-size: 0.875em;
+  background: var(--code-bg);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+.art-body pre {
+  background: var(--code-bg);
+  padding: 1rem 1.25rem;
+  border-radius: var(--r);
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+}
+.art-body pre code { background: none; padding: 0; }
+
+/* ── Images ──────────────────────────────────────────── */
+/*
+  Usage in content.md (raw HTML is supported in Markdown):
+    <figure class="img-right">
+      <img src="images/my-image.jpg" alt="Description">
+      <figcaption>Caption text</figcaption>
+    </figure>
+  Or for full-width:
+    ![Alt text](images/my-image.jpg)
+*/
+.art-body img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--r);
+}
+.art-body figure {
+  margin: 2rem 0;
+}
+.art-body figcaption {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+/* Float variants — apply with class="img-right" / "img-left" on <figure> */
+@media (min-width: 600px) {
+  .art-body .img-right {
+    float: right;
+    max-width: 46%;
+    margin: 0.25rem 0 1.5rem 2rem;
+    clear: right;
+  }
+  .art-body .img-left {
+    float: left;
+    max-width: 46%;
+    margin: 0.25rem 2rem 1.5rem 0;
+    clear: left;
+  }
+}
+.art-body .img-right,
+.art-body .img-left { border-radius: var(--r); }
+
+/* Clearfix after floated images */
+.art-body h2, .art-body h3 { clear: both; }
+
+/* ── Two-column grid (legacy) ────────────────────────── */
+.art-body .two-cols-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+/* ── HR ──────────────────────────────────────────────── */
+.art-body hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 3rem 0;
+}
+
+/* ── Footer ──────────────────────────────────────────── */
+footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 3rem 1.5rem 2.5rem;
+}
+
+.footer-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+.fnav-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+.fnav-list {
+  list-style: none;
+  columns: 2;
+  column-gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+@media (max-width: 480px) { .fnav-list { columns: 1; } }
+
+.fnav-list li {
+  break-inside: avoid;
+  padding: 0.2rem 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+.fnav-list .fnav-ch a {
+  font-weight: 700;
+  color: var(--heading);
+  text-decoration: none;
+}
+.fnav-list .fnav-sec a {
+  color: var(--muted);
+  text-decoration: none;
+  padding-left: 0.85rem;
+  display: block;
+  font-size: 0.8rem;
+}
+.fnav-list a:hover { color: var(--link); text-decoration: underline; }
+
+.footer-meta {
+  font-size: 0.8rem;
+  color: var(--muted);
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-lt);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.footer-top { text-align: right; }
+.footer-top a {
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+.footer-top a:hover { color: var(--link); }
+
+/* ── Responsive base ─────────────────────────────────── */
+@media (max-width: 540px) {
+  body { font-size: 16px; }
+  main { padding: 2.25rem 1rem 3.5rem; }
+}
+
+/* ════════════════════════════════════════════════════════
+   Markdown Templates
+   ════════════════════════════════════════════════════════ */
+
+/* ── Infobox  (:::box) ───────────────────────────────── */
+.md-box {
+  background: var(--toc-bg);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--link);
+  border-radius: var(--r);
+  padding: 1.1rem 1.4rem;
+  margin: 1.75rem 0;
+}
+.md-box p:last-child { margin-bottom: 0; }
+
+/* ── Two-column boxes  (:::box2) ─────────────────────── */
+.md-box2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin: 1.75rem 0;
+}
+@media (max-width: 540px) { .md-box2 { grid-template-columns: 1fr; } }
+
+.md-box2 .md-col {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1rem 1.25rem;
+}
+.md-box2 .md-col p:last-child { margin-bottom: 0; }
+
+/* ── Three-column boxes  (:::box3) ───────────────────── */
+.md-box3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin: 1.75rem 0;
+}
+@media (max-width: 640px) { .md-box3 { grid-template-columns: 1fr; } }
+@media (min-width: 641px) and (max-width: 860px) {
+  .md-box3 { grid-template-columns: 1fr 1fr; }
+}
+
+.md-box3 .md-col {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1rem 1.25rem;
+}
+.md-box3 .md-col p:last-child { margin-bottom: 0; }
+
+/* ── FAQ accordion  (:::faq) ─────────────────────────── */
+.md-faq {
+  margin: 1.75rem 0;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.md-faq details {
+  border-top: 1px solid var(--border-lt);
+}
+.md-faq details:first-child { border-top: none; }
+
+.md-faq summary {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--heading);
+  padding: 0.9rem 1.25rem;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--surface);
+  transition: background 0.15s;
+}
+.md-faq summary::-webkit-details-marker { display: none; }
+.md-faq summary::after {
+  content: "+";
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--muted);
+  flex-shrink: 0;
+  margin-left: 1rem;
+  transition: transform 0.2s;
+}
+.md-faq details[open] summary::after {
+  content: "−";
+}
+.md-faq summary:hover { background: var(--toc-bg); }
+
+.md-faq .faq-answer {
+  padding: 0.75rem 1.25rem 1rem;
+  background: var(--bg);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+.md-faq .faq-answer p:last-child { margin-bottom: 0; }
